@@ -1,0 +1,22 @@
+[
+  {
+    "type": "function",
+    "name": "getPair",
+    "stateMutability": "view",
+    "inputs": [
+      {"name": "tokenA", "type": "address"},
+      {"name": "tokenB", "type": "address"}
+    ],
+    "outputs": [{"type": "address"}]
+  },
+  {
+    "type": "function",
+    "name": "createPair",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {"name": "tokenA", "type": "address"},
+      {"name": "tokenB", "type": "address"}
+    ],
+    "outputs": [{"type": "address"}]
+  }
+]
