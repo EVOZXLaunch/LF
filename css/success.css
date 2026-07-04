@@ -1,0 +1,166 @@
+/* =========================================================
+   SUCCESS PAGE
+========================================================= */
+
+.success-page {
+    padding: 48px 0 64px;
+}
+
+.success-banner {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.success-icon {
+    font-size: 52px;
+    margin-bottom: 16px;
+}
+
+.success-banner h2 {
+    margin-bottom: 16px;
+}
+
+.success-banner p {
+    max-width: 700px;
+    margin: 0 auto;
+    color: var(--muted);
+}
+
+.success-card {
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,.04),
+        rgba(255,255,255,.02)
+    );
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    border-radius: 20px;
+
+    padding: 24px;
+
+    margin-bottom: 24px;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.25);
+}
+
+.success-card h3 {
+    margin-bottom: 20px;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.detail-grid > div {
+    background: rgba(255,255,255,.025);
+
+    border: 1px solid rgba(255,255,255,.05);
+
+    border-radius: 14px;
+
+    padding: 14px;
+}
+
+.detail-grid label {
+    display: block;
+
+    color: var(--gold);
+
+    font-size: .85rem;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+}
+
+.detail-grid p {
+    margin: 0;
+
+    color: var(--text);
+
+    word-break: break-word;
+
+    overflow-wrap: anywhere;
+}
+
+#tokenAddress,
+#creator,
+#txHash {
+    font-size: .85rem;
+    line-height: 1.5;
+    word-break: break-all;
+}
+
+.verification-text {
+    margin-bottom: 20px;
+}
+
+.success-actions {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 16px;
+
+    margin-bottom: 24px;
+}
+
+.success-actions .primary-button,
+.success-actions .secondary-button {
+    flex: 1;
+    min-width: 180px;
+}
+
+@media (max-width: 768px) {
+
+    .success-page {
+        padding: 36px 0 56px;
+    }
+
+    .success-banner {
+        text-align: left;
+        margin-bottom: 24px;
+    }
+
+    .success-icon {
+        font-size: 42px;
+        margin-bottom: 12px;
+    }
+
+    .success-banner h2 {
+        font-size: 2.2rem;
+        line-height: 1.1;
+        margin-bottom: 12px;
+    }
+
+    .success-banner p {
+        margin: 0;
+    }
+
+    .success-card {
+        padding: 18px;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .success-actions {
+        flex-direction: column;
+    }
+
+    .success-actions .primary-button,
+    .success-actions .secondary-button {
+        width: 100%;
+        min-width: unset;
+    }
+}

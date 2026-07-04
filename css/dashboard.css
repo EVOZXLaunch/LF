@@ -1,0 +1,728 @@
+/* =====================================================
+DASHBOARD PAGE
+===================================================== */
+
+.dashboard-page {
+
+    padding: 48px 0 80px;
+
+}
+
+.page-header {
+
+    margin-bottom: 32px;
+
+}
+
+.page-header h2 {
+
+    margin: 0 0 10px;
+
+    font-size: 34px;
+
+    font-weight: 800;
+
+}
+
+.page-header p {
+
+    margin: 0;
+
+    max-width: 760px;
+
+    line-height: 1.7;
+
+    color: var(--text-muted);
+
+}
+
+/* =====================================================
+SECTIONS
+===================================================== */
+
+.dashboard-section {
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.03),
+            rgba(255,255,255,.015)
+        );
+
+    border: 1px solid rgba(255,255,255,.06);
+
+    border-radius: 22px;
+
+    padding: 22px;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.20);
+
+}
+
+.section-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+
+}
+
+.section-header h3 {
+
+    margin: 0 0 6px;
+
+    font-size: 1.25rem;
+
+}
+
+.section-header p {
+
+    margin: 0;
+
+    color: var(--text-muted);
+
+}
+
+/* =====================================================
+STATS
+===================================================== */
+
+.stats-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                220px,
+                1fr
+            )
+        );
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+
+}
+
+.info-card,
+.stat-card {
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.04),
+            rgba(255,255,255,.02)
+        );
+
+    border: 1px solid rgba(255,255,255,.06);
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    min-height: 92px;
+
+    transition: .25s ease;
+
+}
+
+.info-card:hover,
+.stat-card:hover {
+
+    border-color:
+        rgba(217,164,65,.25);
+
+    transform:
+        translateY(-2px);
+
+}
+
+.info-card span,
+.stat-label {
+
+    display: block;
+
+    font-size: 13px;
+
+    color: var(--text-muted);
+
+    margin-bottom: 8px;
+
+}
+
+.info-card strong,
+.stat-value {
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    word-break: break-word;
+
+}
+
+/* =====================================================
+ACTIONS
+===================================================== */
+
+.actions-grid {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+}
+
+.actions-grid a {
+
+    flex: 1;
+
+    min-width: 180px;
+
+}
+
+/* =====================================================
+LOADING
+===================================================== */
+
+.loading-panel {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    padding: 40px 20px;
+
+    text-align: center;
+
+}
+
+.spinner {
+
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 50%;
+
+    border: 3px solid rgba(255,255,255,.15);
+
+    border-top-color: var(--gold);
+
+    animation: spin 1s linear infinite;
+
+}
+
+@keyframes spin {
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
+}
+
+[hidden] {
+
+    display: none !important;
+
+}
+
+/* =====================================================
+EMPTY STATE
+===================================================== */
+
+.empty-state {
+
+    text-align: center;
+
+    padding: 40px 20px;
+
+}
+
+.empty-state h3 {
+
+    margin-bottom: 12px;
+
+}
+
+.empty-state p {
+
+    margin-bottom: 20px;
+
+    color: var(--text-muted);
+
+}
+
+/* =====================================================
+TOKEN GRID
+===================================================== */
+
+.token-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(
+                300px,
+                1fr
+            )
+        );
+
+    gap: 18px;
+
+}
+
+/* =====================================================
+TOKEN CARD
+===================================================== */
+
+.token-card {
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.03),
+            rgba(255,255,255,.015)
+        );
+
+    border: 1px solid rgba(255,255,255,.06);
+
+    border-radius: 18px;
+
+    padding: 16px;
+
+    transition: .25s ease;
+
+}
+
+.token-card:hover {
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(217,164,65,.35);
+
+    box-shadow:
+        0 12px 30px rgba(217,164,65,.10);
+
+}
+
+.token-card-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 16px;
+
+    margin-bottom: 14px;
+
+}
+
+.token-name {
+
+    margin: 0;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+}
+
+.token-symbol {
+
+    margin: 4px 0 0;
+
+    color: var(--text-muted);
+
+}
+
+.token-card-body {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-bottom: 14px;
+
+}
+
+.token-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+.token-row span {
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+
+}
+
+.token-row strong {
+
+    text-align: right;
+
+    word-break: break-all;
+
+}
+
+.token-card-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+}
+
+.token-card-actions button {
+
+    flex: 1 1 120px;
+
+}
+
+/* =====================================================
+BADGES
+===================================================== */
+
+.badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+.badge-green {
+
+    background:
+        rgba(16,185,129,.15);
+
+    color: #10b981;
+
+}
+
+.badge-red {
+
+    background:
+        rgba(239,68,68,.15);
+
+    color: #ef4444;
+
+}
+
+/* =====================================================
+PROGRESS
+===================================================== */
+
+.progress-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+
+}
+
+.progress-bar {
+
+    width: 100%;
+
+    height: 16px;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+
+    background:
+        rgba(255,255,255,.08);
+
+}
+
+.progress-fill {
+
+    width: 0%;
+
+    height: 100%;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #f4b942,
+            #ffd66b
+        );
+
+    box-shadow:
+        0 0 14px
+        rgba(
+            244,
+            185,
+            66,
+            .45
+        );
+
+    transition:
+        width .4s ease;
+
+}
+
+.progress-detail {
+
+    margin-top: 12px;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    word-break: break-word;
+
+}
+
+/* =====================================================
+ACTIVITY
+===================================================== */
+
+#recentBurnActivity {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+.activity-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 14px 16px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .03
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .04
+        );
+
+}
+
+.activity-token {
+
+    font-weight: 600;
+
+}
+
+.activity-burn {
+
+    color: var(--gold);
+
+    font-weight: 700;
+
+}
+
+.activity-token {
+
+    flex: 1;
+
+    min-width: 0;
+
+    word-break: break-word;
+
+}
+
+/* =====================================================
+HISTORY
+===================================================== */
+
+.history-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+}
+
+.history-item {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .025
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .06
+        );
+
+    border-radius: 16px;
+
+    padding: 16px;
+
+}
+
+.history-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 12px;
+
+    flex-wrap: wrap;
+
+}
+
+.history-body {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                180px,
+                1fr
+            )
+        );
+
+    gap: 12px;
+
+}
+
+.history-body span {
+
+    display: block;
+
+    font-size: 12px;
+
+    color: var(--text-muted);
+
+    margin-bottom: 4px;
+
+}
+
+.history-body strong {
+
+    word-break: break-all;
+
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .dashboard-page {
+        padding: 24px 0 50px;
+    }
+
+    .page-header h2 {
+        font-size: 28px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-section {
+        padding: 16px;
+    }
+
+    .token-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .token-card-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+}

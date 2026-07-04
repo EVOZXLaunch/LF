@@ -1,0 +1,746 @@
+/* ==========================================================
+   LAUNCH PAGE
+========================================================== */
+
+.launch-page {
+
+    padding: 48px 0 80px;
+
+}
+
+.launch-layout {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        380px;
+
+    gap: 24px;
+
+    align-items: start;
+
+}
+
+.launch-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+
+}
+
+/* ==========================================================
+   PAGE HEADER
+========================================================== */
+
+.page-header {
+
+    margin-bottom: 32px;
+
+}
+
+.page-header h2 {
+
+    margin-bottom: 12px;
+
+}
+
+.page-header p {
+
+    max-width: 720px;
+
+    color: var(--muted);
+
+}
+
+/* ==========================================================
+   ACCORDION
+========================================================== */
+
+.accordion {
+
+    border: 1px solid rgba(255,255,255,.06);
+
+    border-radius: var(--radius-xl);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.03),
+            rgba(255,255,255,.015)
+        );
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.18);
+
+    overflow: hidden;
+
+}
+
+.accordion-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    min-height: 68px;
+
+    padding: 0 24px;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    transition: .2s;
+
+}
+
+.accordion-header:hover {
+
+    background: rgba(255,255,255,.03);
+
+}
+
+.accordion.open .accordion-header {
+
+    border-bottom:
+        1px solid rgba(255,255,255,.06);
+
+}
+
+.accordion-header h3 {
+
+    margin: 0;
+
+    font-size: 1rem;
+
+}
+
+.accordion-body {
+
+    display: none;
+
+    padding: 24px;
+
+}
+
+.accordion.open .accordion-body {
+
+    display: block;
+
+    animation: accordionFade .2s ease;
+
+}
+
+@keyframes accordionFade {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(-4px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* ==========================================================
+   FORM GRID
+========================================================== */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+    gap: 24px;
+
+}
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+.form-group.full {
+
+    grid-column: 1 / -1;
+
+}
+
+.form-group label {
+
+    font-weight: 600;
+
+}
+
+.form-group input {
+
+    width: 100%;
+
+}
+
+/* ==========================================================
+   CHECKBOX
+========================================================== */
+
+.checkbox-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-height: 44px;
+
+    margin-bottom: 12px;
+
+    cursor: pointer;
+
+}
+
+.checkbox-row:last-child {
+
+    margin-bottom: 0;
+
+}
+
+.checkbox-row input[type="checkbox"] {
+
+    width: 18px;
+
+    height: 18px;
+
+    margin: 0;
+
+    flex-shrink: 0;
+
+    cursor: pointer;
+
+}
+
+.checkbox-row span {
+
+    color: var(--white);
+
+    font-size: .95rem;
+
+}
+
+/* ==========================================================
+   BADGE
+========================================================== */
+
+.badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 28px;
+
+    padding: 0 10px;
+
+    border-radius: 999px;
+
+    margin-top: 8px;
+
+    font-size: .8rem;
+
+    font-weight: 600;
+
+}
+
+.badge-green {
+
+    background: rgba(46,204,113,.15);
+
+    border: 1px solid rgba(46,204,113,.30);
+
+    color: #2ECC71;
+
+}
+
+.badge-red {
+
+    background: rgba(231,76,60,.15);
+
+    border: 1px solid rgba(231,76,60,.30);
+
+    color: #E74C3C;
+
+}
+
+/* ==========================================================
+   PREVIEW CARD
+========================================================== */
+
+.preview-card {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+    padding: 24px;
+
+    border-radius: var(--radius-lg);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.04),
+            rgba(255,255,255,.02)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.06);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.18);
+
+}
+
+.preview-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 16px;
+
+}
+
+.preview-row span {
+
+    color: var(--muted);
+
+}
+
+.preview-row strong {
+
+    color: var(--white);
+
+    font-weight: 700;
+
+}
+
+/* ==========================================================
+   STATUS PANEL
+========================================================== */
+
+.status-panel {
+
+    min-height: 24px;
+
+    margin-top: 18px;
+
+    padding: 12px 14px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(217,164,65,.08);
+
+    border:
+        1px solid rgba(217,164,65,.18);
+
+    color: var(--gold);
+
+    font-size: .92rem;
+
+}
+
+/* ==========================================================
+   DEPLOY BUTTON
+========================================================== */
+
+.deploy-button {
+
+    width: 100%;
+    min-height: 60px;
+    margin-top: 24px;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+    box-shadow:
+        0 12px 30px rgba(217,164,65,.22);
+
+}
+
+.deploy-button:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 16px 36px rgba(217,164,65,.30);
+
+}
+
+.deploy-button:active {
+
+    transform:
+        translateY(0);
+
+}
+
+.deploy-button:focus-visible {
+
+    outline: none;
+
+    box-shadow:
+        0 0 0 3px rgba(217,164,65,.20),
+        0 12px 30px rgba(217,164,65,.22);
+
+}
+
+.deploy-button.loading {
+
+    opacity: .7;
+
+    pointer-events: none;
+
+}
+
+.deploy-button:disabled {
+
+    opacity: .6;
+
+    cursor: not-allowed;
+
+}
+
+/* ==========================================================
+   INPUT DISABLED
+========================================================== */
+
+input:disabled {
+
+    opacity: .5;
+
+    cursor: not-allowed;
+
+}
+
+/* ==========================================================
+   SIDEBAR
+========================================================== */
+
+.launch-sidebar {
+
+    position: sticky;
+
+    top: 100px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+.info-card,
+.balance-card,
+.help-box {
+
+    padding: 24px;
+
+    border-radius: var(--radius-xl);
+
+    border:
+        1px solid rgba(255,255,255,.06);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.03),
+            rgba(255,255,255,.015)
+        );
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.14);
+
+}
+
+.info-card h3,
+.balance-card h4,
+.help-box h4 {
+
+    margin-bottom: 16px;
+
+}
+
+/* ==========================================================
+   WALLET CARD
+========================================================== */
+
+.balance-value {
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    word-break: break-word;
+
+}
+
+/* ==========================================================
+   SUMMARY
+========================================================== */
+
+.summary-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+}
+
+.summary-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+.summary-item:last-child {
+
+    border-bottom: none;
+
+    padding-bottom: 0;
+
+}
+
+.summary-item span {
+
+    color: var(--muted);
+
+}
+
+.summary-item strong {
+
+    color: var(--white);
+
+    text-align: right;
+
+    word-break: break-word;
+
+    max-width: 60%;
+
+}
+
+/* ==========================================================
+   HELP BOX
+========================================================== */
+
+.help-box ul {
+
+    margin: 0;
+
+    padding-left: 18px;
+
+}
+
+.help-box li {
+
+    margin-bottom: 8px;
+
+    color: var(--muted);
+
+}
+
+.help-box li:last-child {
+
+    margin-bottom: 0;
+
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 1100px) {
+
+    .launch-layout {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .launch-sidebar {
+
+        position: static;
+
+    }
+
+}
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .form-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .accordion-header {
+
+        min-height: 60px;
+
+        padding: 0 18px;
+
+    }
+
+    .accordion-body {
+
+        padding: 18px;
+
+    }
+
+    .preview-row {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 6px;
+
+    }
+
+    .summary-item {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+    .deploy-button {
+
+    position: sticky;
+
+    bottom: 12px;
+
+    z-index: 50;
+
+    backdrop-filter: blur(10px);
+
+    }
+
+}
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
+
+@media (max-width: 480px) {
+
+    .launch-page {
+
+        padding-top: 24px;
+
+    }
+
+    .page-header {
+
+        text-align: center;
+
+    }
+
+    .page-header p {
+
+        margin: 0 auto;
+
+    }
+
+    .accordion-header h3 {
+
+        font-size: .95rem;
+
+    }
+
+    .info-card,
+    .balance-card,
+    .help-box {
+
+        padding: 18px;
+
+    }
+
+    .deploy-button {
+
+        min-height: 54px;
+
+        font-size: .95rem;
+
+    }
+
+}
+
+/* ==========================================================
+   UTILITIES
+========================================================== */
+
+.hidden {
+
+    display: none !important;
+
+}
+
+.w-100 {
+
+    width: 100%;
+
+}

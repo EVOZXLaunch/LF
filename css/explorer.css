@@ -1,0 +1,304 @@
+@import url("./dashboard.css");
+
+/* =====================================================
+STATS BAR
+===================================================== */
+
+.stats-bar {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                160px,
+                1fr
+            )
+        );
+
+    gap: 16px;
+
+    margin-bottom: 24px;
+
+}
+
+.stat-card {
+
+    padding: 20px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.04
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+    backdrop-filter:
+        blur(12px);
+
+}
+
+.stat-label {
+
+    font-size: 14px;
+
+    color:
+        var(--text-muted);
+
+}
+
+.stat-value {
+
+    margin-top: 8px;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color:
+        var(--text-primary);
+
+}
+
+/* =====================================================
+SEARCH + SORT
+===================================================== */
+
+.dashboard-section {
+
+    overflow: visible;
+
+}
+
+#tokenSearch {
+
+    flex: 1 1 320px;
+
+    width: 100%;
+
+    min-width: 220px;
+
+}
+
+.sort-buttons {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+}
+
+.sort-btn {
+
+    padding: 12px 18px;
+
+    border-radius: 12px;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .10
+        );
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
+
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        .2s ease;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+}
+
+.sort-btn:hover {
+
+    border-color:
+        rgba(
+            217,
+            164,
+            65,
+            .50
+        );
+
+}
+
+.sort-btn.active {
+
+    background:
+        linear-gradient(
+            135deg,
+            #d9a441,
+            #f4c45f
+        );
+
+    color: #000;
+
+    font-weight: 700;
+
+    border-color:
+        transparent;
+
+}
+
+/* =====================================================
+PAGINATION
+===================================================== */
+
+#pagination {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    margin-top: 24px;
+
+}
+
+.page-btn {
+
+    min-width: 44px;
+
+    height: 44px;
+
+    border-radius: 12px;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .10
+        );
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
+
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        .2s ease;
+
+}
+
+.page-btn:hover {
+
+    border-color:
+        rgba(
+            217,
+            164,
+            65,
+            .50
+        );
+
+}
+
+.page-btn.active {
+
+    background:
+        linear-gradient(
+            135deg,
+            #d9a441,
+            #f4c45f
+        );
+
+    color: black;
+
+    font-weight: 700;
+
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .stats-bar {
+
+        grid-template-columns:
+            repeat(
+                2,
+                1fr
+            );
+
+    }
+
+    .sort-buttons {
+
+        width: 100%;
+
+    }
+
+    .sort-btn {
+
+        flex: 1;
+
+        min-width: 70px;
+
+        text-align: center;
+
+    }
+
+}
+
+.token-header-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.token-logo{
+    width:48px;
+    height:48px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:1px solid rgba(217,164,65,.25);
+
+    background:rgba(255,255,255,.04);
+
+    flex-shrink:0;
+}
