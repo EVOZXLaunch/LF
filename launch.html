@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+
+LaunchFuture • Deploy Token
+
+</title>
+
+<meta
+    name="description"
+    content="Deploy verified EVOZ20 tokens using LaunchFuture.">
+
+<link
+    rel="icon"
+    href="./images/logo.png">
+
+<link
+    rel="stylesheet"
+    href="./css/app.css">
+
+<link
+    rel="stylesheet"
+    href="./css/launch.css">
+
+</head>
+
+<body id="top">
+
+<header class="topbar">
+
+    <div class="container">
+
+        <a
+            href="./index.html"
+            class="brand">
+
+            <img
+                src="./images/logo.png"
+                alt="LaunchFuture">
+
+            <div>
+
+                <h1>
+
+                    LaunchFuture
+
+                </h1>
+
+                <p>
+
+                    Official Token Launchpad
+
+                </p>
+
+            </div>
+
+</a>
+
+<div class="header-actions">
+
+    <div id="liveClock" class="live-clock">
+        00:00
+    </div>
+
+    <span
+        id="headerWalletStatus"
+        class="wallet-status">
+🔴
+    </span>
+
+    <button id="menuToggle" class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+</div>
+
+    </div>
+
+</header>
+
+    <div
+    id="menuOverlay"
+    class="menu-overlay">
+
+</div>
+
+<aside
+    id="mobileMenu"
+    class="mobile-menu">
+
+    <a href="./index.html">
+        ⌂ Home
+    </a>
+
+    <a href="./launch.html">
+        ◈ Deploy
+    </a>
+
+    <a href="./explorer.html">
+        ◎ Explorer
+    </a>
+
+    <a href="./dashboard.html">
+        ▦ Dashboard
+    </a>
+
+</aside>
+
+<main class="launch-page">
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <h2>
+
+                Deploy New Token
+
+            </h2>
+
+            <p>
+
+                Configure your token and deploy it directly through the LaunchFuture Factory.
+
+            </p>
+
+        </div>
+
+        <div class="launch-layout">
+
+            <section class="launch-form">
+
+                <!-- ================================================= -->
+                <!-- BASIC INFORMATION -->
+                <!-- ================================================= -->
+
+                <div class="accordion open">
+
+                    <div class="accordion-header">
+
+                        <h3>
+
+                            📋 Token Configuration
+
+                        </h3>
+
+                    </div>
+
+                    <div class="accordion-body">
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+
+                                <label>
+
+                                    Token Name
+
+                                </label>
+
+                                <input
+                                    id="name"
+                                    type="text"
+                                    maxlength="50"
+                                    placeholder="My Token">
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>
+
+                                    Symbol
+
+                                </label>
+
+                                <input
+                                    id="symbol"
+                                    type="text"
+                                    maxlength="12"
+                                    placeholder="MTK">
+
+                                <div
+                                    id="symbolStatus"
+                                    class="badge">
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group full">
+
+                                <label>
+
+                                    Total Supply
+
+                                </label>
+
+                                <input
+                                    id="supply"
+                                    type="number"
+                                    min="1"
+                                    placeholder="1000000">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ================================================= -->
+                <!-- CORE FEATURES -->
+                <!-- ================================================= -->
+
+                <div class="accordion">
+
+                    <div class="accordion-header">
+
+                        <h3>
+
+                            ⚡ Core Features
+
+                        </h3>
+
+                    </div>
+
+                    <div class="accordion-body">
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="burnable"
+                                type="checkbox">
+
+                            <span>
+
+                                Burnable
+
+                            </span>
+
+                        </label>
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="mintable"
+                                type="checkbox">
+
+                            <span>
+
+                                Mintable
+
+                            </span>
+
+                        </label>
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="ownershipEnabled"
+                                type="checkbox">
+
+                            <span>
+
+                                Ownership
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <!-- ================================================= -->
+                <!-- SECURITY -->
+                <!-- ================================================= -->
+
+                <div class="accordion">
+
+                    <div class="accordion-header">
+
+                        <h3>
+
+                            🛡️ Security Controls
+
+                        </h3>
+
+                    </div>
+
+                    <div class="accordion-body">
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="maxWalletEnabled"
+                                type="checkbox">
+
+                            <span>
+
+                                Max Wallet
+
+                            </span>
+
+                        </label>
+
+                        <div class="form-group">
+
+                            <input
+                                id="maxWalletPercent"
+                                type="number"
+                                min="1"
+                                max="10"
+                                placeholder="Max Wallet %">
+
+                        </div>
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="maxTxEnabled"
+                                type="checkbox">
+
+                            <span>
+
+                                Max Transaction
+
+                            </span>
+
+                        </label>
+
+                        <div class="form-group">
+
+                            <input
+                                id="maxTxPercent"
+                                type="number"
+                                min="1"
+                                max="10"
+                                placeholder="Max Transaction %">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ================================================= -->
+                <!-- TRADING -->
+                <!-- ================================================= -->
+
+                <div class="accordion">
+
+                    <div class="accordion-header">
+
+                        <h3>
+
+                            📈 Trading Parameters
+
+                        </h3>
+
+                    </div>
+
+                    <div class="accordion-body">
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="tradingControlEnabled"
+                                type="checkbox">
+
+                            <span>
+
+                                Trading Control
+
+                            </span>
+
+                        </label>
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="tradingEnabled"
+                                type="checkbox">
+
+                            <span>
+
+                                Trading Enabled
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+    </div>
+
+                <!-- ================================================= -->
+                <!-- TAX SYSTEM -->
+                <!-- ================================================= -->
+
+                <div class="accordion">
+
+                    <div class="accordion-header">
+
+                        <h3>
+
+                            💰 Tax Configuration
+
+                        </h3>
+
+                    </div>
+
+                    <div class="accordion-body">
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="buyTaxEnabled"
+                                type="checkbox">
+
+                            <span>
+
+                                Buy Tax
+
+                            </span>
+
+                        </label>
+
+                        <div class="form-group">
+
+                            <input
+                                id="buyTax"
+                                type="number"
+                                min="0"
+                                max="10"
+                                placeholder="Buy Tax %">
+
+                        </div>
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="sellTaxEnabled"
+                                type="checkbox">
+
+                            <span>
+
+                                Sell Tax
+
+                            </span>
+
+                        </label>
+
+                        <div class="form-group">
+
+                            <input
+                                id="sellTax"
+                                type="number"
+                                min="0"
+                                max="10"
+                                placeholder="Sell Tax %">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Burn Tax Share
+
+                            </label>
+
+                            <input
+                                id="burnTaxShare"
+                                type="number"
+                                min="0"
+                                max="10"
+                                placeholder="Burn Share %">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ================================================= -->
+                <!-- DISTRIBUTION WALLETS -->
+                <!-- ================================================= -->
+
+                <div class="accordion">
+
+                    <div class="accordion-header">
+
+                        <h3>
+
+                            🏦 Wallet Allocation
+
+                        </h3>
+
+                    </div>
+
+                    <div class="accordion-body">
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Marketing Wallet
+
+                            </label>
+
+                            <input
+                                id="marketingWallet"
+                                type="text"
+                                placeholder="0x...">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Development Wallet
+
+                            </label>
+
+                            <input
+                                id="developmentWallet"
+                                type="text"
+                                placeholder="0x...">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ================================================= -->
+                <!-- PROJECT LINKS -->
+                <!-- ================================================= -->
+
+                <div class="accordion">
+
+                    <div class="accordion-header">
+
+                        <h3>
+
+                            🌐 Project Links
+
+                        </h3>
+
+                    </div>
+
+                    <div class="accordion-body">
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Website
+
+                            </label>
+
+                            <input
+                                id="website"
+                                type="url"
+                                placeholder="https://">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Telegram
+
+                            </label>
+
+                            <input
+                                id="telegram"
+                                type="url"
+                                placeholder="https://t.me/...">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Twitter / X
+
+                            </label>
+
+                            <input
+                                id="twitter"
+                                type="url"
+                                placeholder="https://x.com/...">
+
+                        </div>
+
+                        <div class="form-group">
+
+    <label>
+    Token Logo
+</label>
+
+<input
+    id="logoFile"
+    type="file"
+    accept="image/png,image/jpeg,image/webp">
+    
+<p class="logo-help">
+⬜ Square (1:1) • 📦 Max 2 MB
+</p>
+
+<button
+    type="button"
+    id="clearLogo"
+    class="secondary-button"
+    style="display:none;margin-top:12px;">
+
+    🔄 Change Logo
+
+</button>
+
+<img
+    id="logoPreview"
+    alt="Logo Preview"
+    style="
+        display:none;
+        width:120px;
+        height:120px;
+        object-fit:contain;
+        margin-top:12px;
+        border-radius:12px;
+        border:1px solid rgba(214,168,74,.35);
+        background:rgba(255,255,255,.03);
+        padding:10px;
+    ">
+                            
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ================================================= -->
+                <!-- DEPLOYMENT -->
+                <!-- ================================================= -->
+
+                <div class="accordion open">
+
+                    <div class="accordion-header">
+
+                        <h3>
+
+                            🚀 Deployment Review
+
+                        </h3>
+
+                    </div>
+
+                    <div class="accordion-body">
+
+                        <div class="preview-card">
+
+                            <div class="preview-row">
+
+                                <span>
+
+                                    Deployment Fee
+
+                                </span>
+
+                                <strong id="deploymentFee">
+
+                                    -
+
+                                </strong>
+
+                            </div>
+
+                            <div class="preview-row">
+
+                                <span>
+
+                                    EVOZX Balance
+
+                                </span>
+
+                                <strong id="evozxBalance">
+
+                                    -
+
+                                </strong>
+
+                            </div>
+
+                            <div class="preview-row">
+
+                                <span>
+
+                                    Required EVOZ
+
+                                </span>
+
+                                <strong id="requiredEVOZ">
+
+                                    -
+
+                                </strong>
+
+                            </div>
+
+                            <div class="preview-row">
+
+                                <span>
+
+                                    Status
+
+                                </span>
+
+                                <strong id="readyStatus">
+
+                                    Waiting...
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            id="statusText"
+                            class="status-panel">
+
+                        </div>
+
+                        <button
+                            id="deployButton"
+                            class="primary-button deploy-button">
+
+                            Deploy Token
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- ================================================= -->
+            <!-- SIDEBAR -->
+            <!-- ================================================= -->
+
+            <aside class="launch-sidebar">
+
+                <div class="balance-card">
+
+                    <h4>
+
+                        Wallet
+
+                    </h4>
+
+                    <div
+                        id="walletAddress"
+                        class="balance-value">
+
+                        Not Connected
+
+                    </div>
+
+                    <div class="summary-list mt-2">
+
+                        <div class="summary-item">
+
+                            <span>
+
+                                EVOZ
+
+                            </span>
+
+                            <strong id="walletEVOZBalance">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+                        <div class="summary-item">
+
+                            <span>
+
+                                EVOZX
+
+                            </span>
+
+                            <strong id="walletEVOZXBalance">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="info-card">
+
+                    <h3>
+
+                        LaunchFuture
+
+                    </h3>
+
+                    <div class="summary-list">
+
+                        <div class="summary-item">
+
+                            <span>
+
+                                Standard
+
+                            </span>
+
+                            <strong>
+
+                                EVOZ20
+
+                            </strong>
+
+                        </div>
+
+                        <div class="summary-item">
+
+                            <span>
+
+                                Deployment
+
+                            </span>
+
+                            <strong>
+
+                                On-Chain
+
+                            </strong>
+
+                        </div>
+
+                        <div class="summary-item">
+
+                            <span>
+
+                                Factory
+
+                            </span>
+
+                            <strong>
+
+                                LaunchFuture
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="help-box">
+
+                    <h4>
+
+                        Before Deploy
+
+                    </h4>
+
+                    <ul>
+
+                        <li>
+
+                            Connect your wallet.
+
+                        </li>
+
+                        <li>
+
+                            Complete token information.
+
+                        </li>
+
+                        <li>
+
+                            Review deployment fee.
+
+                        </li>
+
+                        <li>
+
+                            Confirm deployment.
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+
+                <img
+                    src="./images/logo.png"
+                    class="footer-logo"
+                    alt="LaunchFuture">
+
+                <p>
+
+                    LaunchFuture is the official launchpad interface
+                    for deploying verified EVOZ20 tokens.
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <h4>
+
+                    Resources
+
+                </h4>
+
+                <p>
+
+                    LaunchFuture Factory
+
+                </p>
+
+                <p>
+
+                    EVOZ20 Standard
+
+                </p>
+
+                <p>
+
+                    On-Chain Deployment
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            © 2026 LaunchFuture
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script
+    type="module"
+    src="./js/launch.js">
+</script>
+
+    <script
+    src="./js/menu.js">
+    </script>
+
+    <script>
+
+const liveClock =
+document.getElementById("liveClock");
+
+function updateClock() {
+
+    const now = new Date();
+
+    liveClock.textContent =
+        now.toLocaleTimeString(
+            "id-ID",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+    </script>
+
+<button id="backToTop" class="back-to-top">
+    Λ
+</button>
+
+<script src="./js/backtotop.js"></script>
+
+</body>
+
+    </html>

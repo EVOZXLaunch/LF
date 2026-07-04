@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+
+    LaunchFuture
+
+</title>
+
+<meta
+    name="description"
+    content="LaunchFuture is the official EVOZ20 launchpad for creating verified tokens directly from your wallet.">
+
+<meta
+    name="theme-color"
+    content="#050816">
+
+<link
+    rel="icon"
+    href="./images/logo.png">
+
+<link
+    rel="apple-touch-icon"
+    href="./images/logo.png">
+
+<link
+    rel="stylesheet"
+    href="./css/app.css">
+
+</head>
+
+<body>
+
+<div id="top"></div>
+
+<header class="topbar">
+
+    <div class="container">
+
+        <a
+            href="./index.html"
+            class="brand">
+
+            <img
+                src="./images/logo.png"
+                alt="LaunchFuture">
+
+            <div>
+
+                <h1>
+
+                    LaunchFuture
+
+                </h1>
+
+                <p>
+
+                    Official EVOZ20 Launchpad
+
+                </p>
+
+            </div>
+
+        </a>
+
+<div class="header-actions">
+
+    <div
+        id="liveClock"
+        class="live-clock">
+        00:00
+    </div>
+
+    <span
+        id="headerWalletStatus"
+        class="wallet-status">
+        🔴
+    </span>
+
+    <button id="menuToggle" class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+</div>
+
+    </div>
+
+</header>
+
+    <div
+    id="menuOverlay"
+    class="menu-overlay">
+
+</div>
+
+<aside
+    id="mobileMenu"
+    class="mobile-menu">
+
+    <a href="./index.html">
+
+        ⌂ Home
+
+    </a>
+
+    <a href="./launch.html">
+
+        ◈ Deploy
+
+    </a>
+
+    <a href="./explorer.html">
+
+        ◎ Explorer
+
+    </a>
+
+    <a href="./dashboard.html">
+
+    ▦ Dashboard
+
+</a>
+
+<hr>
+
+<p class="wallet-title">
+
+    Wallet Status
+
+</p>
+
+    <span id="walletStatus">
+
+        Not Connected
+
+    </span>
+
+    <p id="walletAddress">
+    -
+</p>
+
+<div class="wallet-brand">
+
+    <img
+        src="./images/logo.png"
+        alt="EVOZX Logo">
+
+    <h4>
+        Launch • Build • Scale
+    </h4>
+
+    <p class="brand-powered">
+        Powered by EVOZX
+    </p>
+
+</div>
+
+</div>
+
+</aside>
+
+<main>
+
+    <!-- ===================================== -->
+    <!-- HERO -->
+    <!-- ===================================== -->
+
+    <section class="hero">
+
+        <div class="container hero-grid">
+
+            <div class="hero-content">
+
+                <span class="hero-tag">
+
+                    Official Launch Platform
+
+                </span>
+
+                <h2>
+
+                    Deploy Verified EVOZ20 Tokens
+
+                </h2>
+
+                <p>
+
+                    Create professional tokens directly from your wallet.
+                    No backend, no database, and fully decentralized.
+
+                </p>
+
+                <div class="hero-buttons">
+
+    <a
+        href="./launch.html"
+        class="primary-button">
+
+        Create Token
+
+    </a>
+
+    <a
+        href="./explorer.html"
+        class="secondary-button">
+
+        Explore Tokens
+
+    </a>
+
+                </div>
+
+            </div>
+
+            <div class="hero-card">
+
+                <img
+                    src="./images/logo.png"
+                    alt="LaunchFuture">
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================== -->
+    <!-- FACTORY STATS -->
+    <!-- ===================================== -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="page-header text-center">
+
+                <h2>
+
+                    Factory Statistics
+
+                </h2>
+
+                <p>
+
+                    Real-time information from the LaunchFuture Factory.
+
+                </p>
+
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <span>
+
+                        Factory
+
+                    </span>
+
+                    <strong id="factoryName">
+
+                        Loading...
+
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span>
+
+                        Version
+
+                    </span>
+
+                    <strong id="factoryVersion">
+
+                        Loading...
+
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span>
+
+                        Total Tokens
+
+                    </span>
+
+                    <strong id="totalTokens">
+
+                        Loading...
+
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span>
+
+                        Factory Owner
+
+                    </span>
+
+                    <strong id="factoryOwner">
+
+                        Loading...
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================== -->
+<!-- LATEST TOKENS -->
+<!-- ===================================== -->
+
+<section>
+
+    <div class="container">
+
+        <div class="page-header text-center">
+
+            <h2>
+
+                Latest Tokens
+
+            </h2>
+
+            <p>
+
+                Recently deployed EVOZ20 tokens.
+
+            </p>
+
+        </div>
+
+        <div
+            id="latestTokens"
+            class="feature-grid">
+
+        </div>
+
+        <div
+            style="
+                text-align:center;
+                margin-top:24px;
+            ">
+
+            <a
+                href="./explorer.html"
+                class="primary-button">
+
+                View All Tokens
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+    <!-- ===================================== -->
+    <!-- FEATURES -->
+    <!-- ===================================== -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="page-header text-center">
+
+                <h2>
+
+                    Why LaunchFuture
+
+                </h2>
+
+            </div>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+
+                    <h3>
+
+                        Fully Decentralized
+
+                    </h3>
+
+                    <p>
+
+                        Deploy directly from your wallet using the official LaunchFuture Factory.
+
+                    </p>
+
+                </article>
+
+                <article class="feature-card">
+
+                    <h3>
+
+                        No Backend Required
+
+                    </h3>
+
+                    <p>
+
+                        Hosted entirely as a static application with no server dependency.
+
+                    </p>
+
+                </article>
+
+                <article class="feature-card">
+
+                    <h3>
+
+                        Verified Deployments
+
+                    </h3>
+
+                    <p>
+
+                        Every token is created through the same audited deployment process.
+
+                    </p>
+
+                </article>
+
+                <article class="feature-card">
+
+                    <h3>
+
+                        Launch In Minutes
+
+                    </h3>
+
+                    <p>
+
+                        Configure your token and deploy with a simple guided interface.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================== -->
+    <!-- WORKFLOW -->
+    <!-- ===================================== -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="page-header text-center">
+
+                <h2>
+
+                    How It Works
+
+                </h2>
+
+            </div>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <h3>
+
+                        1. Connect Wallet
+
+                    </h3>
+
+                    <p>
+
+                        Connect your EVOZ-compatible wallet.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <h3>
+
+                        2. Configure Token
+
+                    </h3>
+
+                    <p>
+
+                        Choose features and token settings.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <h3>
+
+                        3. Review Deployment
+
+                    </h3>
+
+                    <p>
+
+                        Verify all information before deployment.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <h3>
+
+                        4. Launch
+
+                    </h3>
+
+                    <p>
+
+                        Confirm the transaction and deploy instantly.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <img
+                    src="./images/logo.png"
+                    alt="LaunchFuture"
+                    class="footer-logo">
+
+                <div class="footer-brand-content">
+
+                    <h4>LaunchFuture</h4>
+
+                    <p>
+                        Official launchpad for deploying verified EVOZ20 tokens.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <h4>Network</h4>
+
+<p>EVOZ Ecosystem</p>
+
+<p>Single Chain</p>
+
+<p>Multichain Support Coming Soon</p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            © 2026 LaunchFuture
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script
+    type="module"
+    src="./js/index.js">
+</script>
+
+    <script
+    src="./js/menu.js">
+    </script>
+
+    <script>
+
+const liveClock =
+document.getElementById("liveClock");
+
+function updateClock() {
+
+    const now = new Date();
+
+    liveClock.textContent =
+        now.toLocaleTimeString(
+            "id-ID",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+    </script>
+
+    <button id="backToTop" class="back-to-top">
+    Λ
+</button>
+
+<script src="./js/backtotop.js"></script>
+
+</body>
+    
+</html>

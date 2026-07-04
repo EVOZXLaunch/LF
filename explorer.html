@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+
+    LaunchFuture • Explorer
+
+</title>
+
+<link
+    rel="icon"
+    href="./images/logo.png">
+
+<link
+    rel="stylesheet"
+    href="./css/app.css">
+
+<link
+    rel="stylesheet"
+    href="./css/explorer.css">
+
+</head>
+
+<body id="top">
+
+<header class="topbar">
+
+    <div class="container">
+
+        <a
+            href="./index.html"
+            class="brand">
+
+            <img
+                src="./images/logo.png"
+                alt="LaunchFuture">
+
+            <div>
+
+                <h1>
+
+                    LaunchFuture
+
+                </h1>
+
+                <p>
+
+                    Token Explorer
+
+                </p>
+
+            </div>
+
+        </a>
+
+<div class="header-actions">
+
+    <div id="liveClock" class="live-clock">
+        00:00
+    </div>
+
+    <span
+        id="headerWalletStatus"
+        class="wallet-status">
+        ☕
+    </span>
+
+    <button id="menuToggle" class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+</div>
+
+    </div>
+
+</header>
+
+    <div
+    id="menuOverlay"
+    class="menu-overlay">
+
+</div>
+
+<aside
+    id="mobileMenu"
+    class="mobile-menu">
+
+    <a href="./index.html">
+        ⌂ Home
+    </a>
+
+    <a href="./launch.html">
+        ◈ Deploy
+    </a>
+
+    <a href="./explorer.html">
+        ◎ Explorer
+    </a>
+
+    <a href="./dashboard.html">
+        ▦ Dashboard
+    </a>
+
+</aside>
+
+<main class="dashboard-page">
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <h2>
+
+                Public Token Explorer
+
+            </h2>
+
+            <p>
+
+                Browse all EVOZ20 tokens created through LaunchFuture.
+
+            </p>
+
+        </div>
+
+        <!-- SEARCH -->
+
+        <section class="dashboard-section">
+
+    <div
+        style="
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+        ">
+
+        <input
+            id="tokenSearch"
+            type="text"
+            placeholder="Search token name, symbol, or address"
+            style="flex:1;">
+
+        <div class="sort-buttons">
+
+    <button
+        class="sort-btn active"
+        data-sort="newest">
+
+        Newest
+
+    </button>
+
+    <button
+        class="sort-btn"
+        data-sort="oldest">
+
+        Oldest
+
+    </button>
+
+    <button
+        class="sort-btn"
+        data-sort="az">
+
+        A-Z
+
+    </button>
+
+    <button
+        class="sort-btn"
+        data-sort="za">
+
+        Z-A
+
+    </button>
+
+        </div>
+
+    </div>
+
+        </section>
+
+        <!-- TOKEN LIST -->
+
+        <section class="dashboard-section">
+
+    <div
+        id="loadingState"
+        class="loading-panel">
+
+        <div class="spinner">
+        </div>
+
+        <p>
+            Loading tokens...
+        </p>
+
+    </div>
+
+    <div
+        id="paginationInfo"
+        style="
+            margin-bottom:16px;
+            color:var(--text-muted);
+        ">
+
+    </div>
+
+            <div
+    id="statsBar"
+    class="stats-bar">
+
+            </div>
+
+    <div
+        id="tokenList"
+        class="token-grid">
+
+    </div>
+
+    <div
+        id="pagination"
+        style="
+            display:flex;
+            justify-content:center;
+            gap:10px;
+            margin-top:24px;
+            flex-wrap:wrap;
+        ">
+
+    </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+<footer>
+
+    <div class="container">
+
+        <div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            © 2026 LaunchFuture
+
+        </div>
+
+    </div>
+
+</footer>
+
+<!-- TEMPLATE -->
+
+<template id="tokenCardTemplate">
+
+    <article class="token-card">
+
+        <div class="token-card-header">
+
+            <div class="token-header-left">
+
+    <img
+        class="token-logo"
+        src="./images/logo.png"
+        alt="Token Logo">
+
+    <div>
+
+        <h3 class="token-name"></h3>
+
+        <p class="token-symbol"></p>
+
+    </div>
+
+            </div>
+
+            <span class="badge badge-green">
+
+                Active
+
+            </span>
+
+        </div>
+
+        <div class="token-card-body">
+
+            <div class="token-row">
+
+                <span>
+
+                    Address
+
+                </span>
+
+                <strong class="token-address">
+
+                </strong>
+
+            </div>
+
+            <div class="token-row">
+
+                <span>
+
+                    Supply
+
+                </span>
+
+                <strong class="token-supply">
+
+                </strong>
+
+            </div>
+
+            <div class="token-row">
+
+    <span>
+        Creator
+    </span>
+
+    <strong class="token-creator">
+    </strong>
+
+            </div>
+
+            <div class="token-row">
+
+    <span>
+        Created
+    </span>
+
+    <strong class="token-created">
+    </strong>
+
+            </div>
+
+        </div>
+
+        <div class="token-card-actions">
+
+            <button
+                class="secondary-button token-copy">
+
+                Copy
+
+            </button>
+
+            <button
+                class="secondary-button token-explorer">
+
+                Explorer
+
+            </button>
+
+            <button
+                class="primary-button token-details">
+
+                Details
+
+            </button>
+
+        </div>
+
+    </article>
+
+</template>
+
+<script
+    type="module"
+    src="./js/explorer.js">
+</script>
+
+    <script
+    src="./js/menu.js">
+    </script>
+
+    <script>
+
+const liveClock =
+document.getElementById("liveClock");
+
+function updateClock() {
+
+    const now = new Date();
+
+    liveClock.textContent =
+        now.toLocaleTimeString(
+            "id-ID",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+    </script>
+
+    <button id="backToTop" class="back-to-top">
+    Λ
+</button>
+
+<script src="./js/backtotop.js"></script>
+
+</body>
+    
+</html>

@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+
+LaunchFuture • Token Details
+
+</title>
+
+<meta
+    name="description"
+    content="View complete EVOZ20 token information deployed with LaunchFuture.">
+
+<link
+    rel="icon"
+    href="./images/logo.png">
+
+<link
+    rel="stylesheet"
+    href="./css/app.css">
+
+<link
+    rel="stylesheet"
+    href="./css/token.css">
+
+</head>
+
+<body id="top">
+
+<header class="topbar">
+
+    <div class="container">
+
+        <a
+            href="./index.html"
+            class="brand">
+
+            <img
+                src="./images/logo.png"
+                alt="LaunchFuture">
+
+            <div>
+
+                <h1>
+
+                    LaunchFuture
+
+                </h1>
+
+                <p>
+
+                    Verified EVOZ20 Token
+
+                </p>
+
+            </div>
+
+            <a/>
+
+<div class="header-actions">
+
+    <div id="liveClock" class="live-clock">
+        00:00
+    </div>
+
+    <span
+        id="headerWalletStatus"
+        class="wallet-status">
+🔴
+    </span>
+
+    <button id="menuToggle" class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+</div>
+
+    </div>
+
+</header>
+
+    <div
+    id="menuOverlay"
+    class="menu-overlay">
+
+</div>
+
+<aside
+    id="mobileMenu"
+    class="mobile-menu">
+
+    <a href="./index.html">
+        ⌂ Home
+    </a>
+
+    <a href="./launch.html">
+        ◈ Deploy
+    </a>
+
+    <a href="./explorer.html">
+        ◎ Explorer
+    </a>
+
+    <a href="./dashboard.html">
+        ▦ Dashboard
+    </a>
+
+</aside>
+
+<main class="token-page">
+
+    <div
+        class="container"
+        id="tokenContainer">
+
+        <!-- ========================================= -->
+        <!-- HEADER -->
+        <!-- ========================================= -->
+
+        <section class="token-header-card">
+
+            <div class="token-header-left">
+
+                <div class="logo-wrapper">
+
+                    <img
+                        id="logo"
+                        src="./images/logo.png"
+                        alt="Token Logo">
+
+                </div>
+
+                <div>
+
+                    <h2 id="tokenName">
+
+                        Loading...
+
+                    </h2>
+
+                    <p id="tokenSymbol">
+
+                        -
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="token-header-actions">
+
+                <button
+                    id="copyAddress"
+                    class="secondary-button">
+
+                    Copy Address
+
+                </button>
+
+                <button
+                    id="openExplorer"
+                    class="primary-button">
+
+                    Open Explorer
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- SUMMARY -->
+        <!-- ========================================= -->
+
+        <section class="stats-grid">
+
+            <div class="info-card">
+
+                <span>
+
+                    Total Supply
+
+                </span>
+
+                <strong id="supply">
+
+                    -
+
+                </strong>
+
+            </div>
+
+            <div class="info-card">
+
+                <span>
+
+                    Owner
+
+                </span>
+
+                <strong id="owner">
+
+                    -
+
+                </strong>
+
+            </div>
+
+            <div class="info-card">
+
+                <span>
+
+                    Chain ID
+
+                </span>
+
+                <strong id="chainId">
+
+                    -
+
+                </strong>
+
+            </div>
+
+            <div class="info-card">
+
+                <span>
+
+                    LaunchKit
+
+                </span>
+
+                <strong id="version">
+
+                    -
+
+                </strong>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- GENERAL -->
+        <!-- ========================================= -->
+
+        <section class="token-section">
+
+            <h3>
+
+                General Information
+
+            </h3>
+
+            <div class="detail-grid">
+
+                <div>
+
+                    <label>
+
+                        Token Address
+
+                    </label>
+
+                    <p id="tokenAddress">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Owner Address
+
+                    </label>
+
+                    <p id="ownerAddress">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Website
+
+                    </label>
+
+                    <p id="website">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Telegram
+
+                    </label>
+
+                    <p id="telegram">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Twitter / X
+
+                    </label>
+
+                    <p id="twitter">
+
+                        -
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- FEATURES -->
+        <!-- ========================================= -->
+
+        <section class="token-section">
+
+            <h3>
+
+                Features
+
+            </h3>
+
+            <div class="detail-grid">
+
+                <div>
+
+                    <label>
+
+                        Burnable
+
+                    </label>
+
+                    <p
+                        id="burnable"
+                        class="status">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Mintable
+
+                    </label>
+
+                    <p
+                        id="mintable"
+                        class="status">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Ownership Enabled
+
+                    </label>
+
+                    <p
+                        id="ownership"
+                        class="status">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Mint Used
+
+                    </label>
+
+                    <p
+                        id="mintUsed"
+                        class="status">
+
+                        -
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- SECURITY -->
+        <!-- ========================================= -->
+
+        <section class="token-section">
+
+            <h3>
+
+                Security
+
+            </h3>
+
+            <div class="detail-grid">
+
+                <div>
+
+                    <label>
+
+                        Max Wallet
+
+                    </label>
+
+                    <p id="maxWalletEnabled">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Max Wallet %
+
+                    </label>
+
+                    <p id="maxWalletPercent">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Max Transaction
+
+                    </label>
+
+                    <p id="maxTxEnabled">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Max Transaction %
+
+                    </label>
+
+                    <p id="maxTxPercent">
+
+                        -
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- TRADING & TAX -->
+        <!-- ========================================= -->
+
+        <section class="token-section">
+
+            <h3>
+
+                Trading & Tax
+
+            </h3>
+
+            <div class="detail-grid">
+
+                <div>
+
+                    <label>
+
+                        Trading Control
+
+                    </label>
+
+                    <p id="tradingControlEnabled">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Trading Enabled
+
+                    </label>
+
+                    <p id="tradingEnabled">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Buy Tax Enabled
+
+                    </label>
+
+                    <p id="buyTaxEnabled">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Buy Tax
+
+                    </label>
+
+                    <p id="buyTax">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Sell Tax Enabled
+
+                    </label>
+
+                    <p id="sellTaxEnabled">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Sell Tax
+
+                    </label>
+
+                    <p id="sellTax">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Burn Tax Share
+
+                    </label>
+
+                    <p id="burnTaxShare">
+
+                        -
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- DISTRIBUTION -->
+        <!-- ========================================= -->
+
+        <section class="token-section">
+
+            <h3>
+
+                Distribution Wallets
+
+            </h3>
+
+            <div class="detail-grid">
+
+                <div>
+
+                    <label>
+
+                        Marketing Wallet
+
+                    </label>
+
+                    <p id="marketingWallet">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        Development Wallet
+
+                    </label>
+
+                    <p id="developmentWallet">
+
+                        -
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- DEX -->
+        <!-- ========================================= -->
+
+        <section class="token-section">
+
+            <h3>
+
+                DEX Information
+
+            </h3>
+
+            <div class="detail-grid">
+
+                <div>
+
+                    <label>
+
+                        Pair Initialized
+
+                    </label>
+
+                    <p id="pairInitialized">
+
+                        -
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        DEX Pair
+
+                    </label>
+
+                    <p id="dexPair">
+
+                        -
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        <!-- ========================================= -->
+        <!-- ACTIONS -->
+        <!-- ========================================= -->
+
+        <section
+    id="ownerTools"
+    class="token-section hidden">
+
+    <h3>
+        Owner Tools
+    </h3>
+
+    <div class="detail-grid">
+
+        <div>
+
+            <label>
+                Recipient
+            </label>
+
+            <input
+                id="mintRecipient"
+                placeholder="0x..." />
+
+        </div>
+
+        <div>
+
+            <label>
+                Amount
+            </label>
+
+            <input
+                id="mintAmount"
+                type="number"
+                placeholder="1000" />
+
+        </div>
+
+    </div>
+
+    <div
+        class="action-bar"
+        style="margin-top:20px;">
+
+        <button
+            id="mintButton"
+            class="primary-button">
+
+            Mint Token
+
+        </button>
+
+        <button
+            id="enableTradingButton"
+            class="secondary-button">
+
+            Enable Trading
+
+        </button>
+
+        <button
+            id="disableTradingButton"
+            class="secondary-button">
+
+            Disable Trading
+
+        </button>
+
+    </div>
+
+    <div
+        id="ownerStatus"
+        class="status-panel mt-2">
+
+        Ready
+
+    </div>
+
+        </section>
+        
+        <div class="action-bar">
+            
+        </div>
+
+    </div>
+
+</main>
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+
+                <img
+                    src="./images/logo.png"
+                    class="footer-logo"
+                    alt="LaunchFuture">
+
+                <p>
+
+                    LaunchFuture is the official launchpad interface for deploying verified EVOZ20 tokens on EVOZ Mainnet.
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <h4>
+
+                    Network
+
+                </h4>
+
+                <p>
+
+                    EVOZ Mainnet
+
+                </p>
+
+                <p>
+
+                    RPC
+
+                </p>
+
+                <p>
+
+                    https://rpc.evozscan.com
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            © 2026 LaunchFuture
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script
+    type="module"
+    src="./js/token.js">
+</script>
+
+    <script
+    src="./js/menu.js">
+    </script>
+
+<script>
+
+const liveClock =
+document.getElementById("liveClock");
+
+function updateClock() {
+
+    const now = new Date();
+
+    liveClock.textContent =
+        now.toLocaleTimeString(
+            "id-ID",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+</script>
+
+<button id="backToTop" class="back-to-top">
+    Λ
+</button>
+
+<script src="./js/backtotop.js"></script>
+
+</body>
+</html>

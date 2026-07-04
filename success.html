@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+LaunchFuture • Deployment Success
+</title>
+
+<meta
+    name="description"
+    content="Token deployment completed successfully.">
+
+<link
+    rel="icon"
+    href="./images/logo.png">
+
+<link
+    rel="stylesheet"
+    href="./css/app.css">
+
+<link
+    rel="stylesheet"
+    href="./css/success.css">
+
+</head>
+
+<body id="top">
+
+<header class="topbar">
+
+    <div class="container">
+
+        <a
+            href="./index.html"
+            class="brand">
+
+            <img
+                src="./images/logo.png"
+                alt="LaunchFuture">
+
+            <div>
+
+                <h1>
+                    LaunchFuture
+                </h1>
+
+                <p>
+                    Deployment Completed
+                </p>
+
+            </div>
+
+        </a>
+
+        <div class="header-actions">
+
+            <div
+                id="liveClock"
+                class="live-clock">
+
+                00:00
+
+            </div>
+
+            <span
+                id="headerWalletStatus"
+                class="wallet-status">
+                ☕
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main class="success-page">
+
+    <div class="container">
+
+        <section class="success-banner">
+
+            <div class="success-icon">
+                🎉
+            </div>
+
+            <h2>
+                Token Successfully Deployed
+            </h2>
+
+            <p>
+                Your EVOZ20 token has been deployed through the official LaunchFuture Factory contract.
+            </p>
+
+        </section>
+
+        <section class="success-card">
+
+            <h3>
+                Deployment Information
+            </h3>
+
+            <div class="detail-grid">
+
+                <div>
+                    <label>Token Name</label>
+                    <p id="tokenName">-</p>
+                </div>
+
+                <div>
+                    <label>Symbol</label>
+                    <p id="tokenSymbol">-</p>
+                </div>
+
+                <div>
+                    <label>Total Supply</label>
+                    <p id="tokenSupply">-</p>
+                </div>
+
+                <div>
+                    <label>Token Address</label>
+                    <p id="tokenAddress">-</p>
+                </div>
+
+                <div>
+                    <label>Creator</label>
+                    <p id="creator">-</p>
+                </div>
+
+                <div>
+                    <label>Chain ID</label>
+                    <p id="chainId">-</p>
+                </div>
+
+                <div>
+                    <label>Transaction Hash</label>
+                    <p id="txHash">-</p>
+                </div>
+
+                <div>
+                    <label>Block Number</label>
+                    <p id="blockNumber">-</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="success-card">
+
+    <h3>
+        Verification
+    </h3>
+
+    <p class="verification-text">
+
+        Download verification.zip. Extract the ZIP file on your device, then upload standard-input.json during contract verification.
+
+    </p>
+
+    <button
+        id="downloadVerification"
+        class="primary-button">
+
+        Download verification.zip
+
+    </button>
+
+        </section>
+
+        <section class="success-actions">
+
+            <button
+                id="openExplorer"
+                class="primary-button">
+
+                Open Explorer
+
+            </button>
+
+            <button
+                id="copyAddress"
+                class="secondary-button">
+
+                Copy Address
+
+            </button>
+
+            <button
+                id="openToken"
+                class="secondary-button">
+
+                View Token
+
+            </button>
+
+        </section>
+
+        <section class="success-actions">
+
+            <a
+                href="./dashboard.html"
+                class="secondary-button">
+
+                ▦ Dashboard
+
+            </a>
+
+            <a
+                href="./launch.html"
+                class="secondary-button">
+
+                ✦ Deploy Another
+
+            </a>
+
+            <a
+                href="./index.html"
+                class="secondary-button">
+
+                ⌂ Home
+
+            </a>
+
+        </section>
+
+    </div>
+
+</main>
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+
+                <img
+                    src="./images/logo.png"
+                    class="footer-logo"
+                    alt="LaunchFuture">
+
+                <p>
+
+                    LaunchFuture is the official launchpad interface for deploying verified EVOZ20 tokens on EVOZ Mainnet.
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <h4>
+                    Network
+                </h4>
+
+                <p>EVOZ Mainnet</p>
+
+                <p>RPC</p>
+
+                <p>https://rpc.evozscan.com</p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 LaunchFuture
+        </div>
+
+    </div>
+
+</footer>
+
+<script
+    type="module"
+    src="./js/wallet.js">
+</script>
+
+<script
+    type="module"
+    src="./js/success.js">
+</script>
+
+<script>
+
+const liveClock =
+document.getElementById("liveClock");
+
+function updateClock() {
+
+    const now = new Date();
+
+    liveClock.textContent =
+        now.toLocaleTimeString(
+            "id-ID",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+</script>
+
+<button id="backToTop" class="back-to-top">
+    Λ
+</button>
+
+<script src="./js/backtotop.js"></script>
+
+</body>
+</html>
