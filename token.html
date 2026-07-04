@@ -829,6 +829,88 @@ LaunchFuture • Token Details
 
     </div>
 
+    <h3 style="margin-top:32px;">
+        Add Liquidity
+    </h3>
+
+    <p style="opacity:0.7; font-size: 0.9rem;">
+        Creates or tops up a trading pair for this token on the
+        network's DEX, paired with the native coin. This also
+        automatically marks the pair for buy/sell tax detection.
+    </p>
+
+    <div class="detail-grid">
+
+        <div>
+
+            <label>
+                Token Amount
+            </label>
+
+            <input
+                id="liquidityTokenAmount"
+                type="number"
+                min="0"
+                step="any"
+                placeholder="1000" />
+
+        </div>
+
+        <div>
+
+            <label>
+                Native Amount (<span id="liquidityNativeSymbol">EVOZ</span>)
+            </label>
+
+            <input
+                id="liquidityNativeAmount"
+                type="number"
+                min="0"
+                step="any"
+                placeholder="1" />
+
+        </div>
+
+        <div>
+
+            <label>
+                Slippage Tolerance (%)
+            </label>
+
+            <input
+                id="liquiditySlippage"
+                type="number"
+                min="0.1"
+                max="50"
+                step="0.1"
+                value="2" />
+
+        </div>
+
+    </div>
+
+    <div
+        class="action-bar"
+        style="margin-top:20px;">
+
+        <button
+            id="addLiquidityButton"
+            class="primary-button">
+
+            Add Liquidity
+
+        </button>
+
+    </div>
+
+    <div
+        id="liquidityStatus"
+        class="status-panel mt-2">
+
+        Enter amounts and confirm in wallet.
+
+    </div>
+
         </section>
         
         <div class="action-bar">
