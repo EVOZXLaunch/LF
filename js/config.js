@@ -34,19 +34,24 @@ export const NETWORKS = [
         explorer: "https://evozscan.com",
 
         contracts: {
-            factory: "0xcd86Ca358283f06581365635372E5bF0D30271D3",
-            exchange: "0x9680B43F695d5245062e59CCA92ad92DE5aed56e",
+            factory: "0xbA40773bCF0d30e83c4319796Ec45CA31d6e64bB",
+            exchange: "0x24cCb720F7F8b9247FB50A88F6A6a5A5DD7d9ab8",
             treasury: "0x50Cd30Ff7f0fbBD9d0FDe1F60DE8c52D6F390c5C",
-            deployer: 0x3f81E785628D452A8Aae1536D15A3586B490F0c5,
+            deployer: ZERO_ADDRESS,
             // ERC20 token accepted as an alternate payment method
             // (LFT / EVOZX utility token) on this chain.
-            utilityToken: "0x62B9559F193d111aF92d9a5604d79024BFB1C847",
-            utilitySymbol: "LFT"
+            utilityToken: "0x032a962F62Fc1cbc15B19767Aa138deA3B454B74",
+            utilitySymbol: "EVOZX",
+            // Uniswap-V2-style DEX router used by the "Add Liquidity"
+            // feature on the token page. Fill in with the real router
+            // address for EVOZ Mainnet's DEX once known — until then,
+            // "Add Liquidity" stays disabled on this network.
+            dexRouter: ZERO_ADDRESS
         },
 
         // Payment method symbols to probe on-chain via
         // getPaymentMethod(symbol) — "NATIVE" is always tried.
-        paymentSymbols: ["NATIVE", "LFT"]
+        paymentSymbols: ["NATIVE", "EVOZX"]
     },
 
     // ---------------------------------------------------
@@ -70,7 +75,8 @@ export const NETWORKS = [
             treasury: ZERO_ADDRESS,
             deployer: ZERO_ADDRESS,
             utilityToken: ZERO_ADDRESS,
-            utilitySymbol: "LFT"
+            utilitySymbol: "LFT",
+            dexRouter: ZERO_ADDRESS
         },
         paymentSymbols: ["NATIVE", "LFT"]
     },
@@ -89,7 +95,8 @@ export const NETWORKS = [
             treasury: ZERO_ADDRESS,
             deployer: ZERO_ADDRESS,
             utilityToken: ZERO_ADDRESS,
-            utilitySymbol: "LFT"
+            utilitySymbol: "LFT",
+            dexRouter: ZERO_ADDRESS
         },
         paymentSymbols: ["NATIVE", "LFT"]
     },
@@ -108,7 +115,8 @@ export const NETWORKS = [
             treasury: ZERO_ADDRESS,
             deployer: ZERO_ADDRESS,
             utilityToken: ZERO_ADDRESS,
-            utilitySymbol: "LFT"
+            utilitySymbol: "LFT",
+            dexRouter: ZERO_ADDRESS
         },
         paymentSymbols: ["NATIVE", "LFT"]
     },
@@ -127,7 +135,8 @@ export const NETWORKS = [
             treasury: ZERO_ADDRESS,
             deployer: ZERO_ADDRESS,
             utilityToken: ZERO_ADDRESS,
-            utilitySymbol: "LFT"
+            utilitySymbol: "LFT",
+            dexRouter: ZERO_ADDRESS
         },
         paymentSymbols: ["NATIVE", "LFT"]
     }
@@ -334,7 +343,9 @@ export const ABI = {
     evozx: "./abi/evozx.json",
     token: "./abi/token.json",
     erc20: "./abi/erc20.json",
-    deployer: "./abi/deployer.json"
+    deployer: "./abi/deployer.json",
+    router: "./abi/router.json",
+    dexFactory: "./abi/dexfactory.json"
 
 };
 
@@ -355,7 +366,7 @@ export const ASSETS = {
 // prefer reading the live rate from exchange.js instead.
 export const EXCHANGE = {
 
-    evozPerLFT: 0.2
+    evozPerEVOZX: 5
 
 };
 
@@ -386,6 +397,17 @@ export function explorerToken(address) {
 export function explorerTransaction(hash) {
 
     return `${getCurrentNetwork().explorer}/tx/${hash}`;
+
+}
+
+export function isDexReady() {
+
+    const router =
+        getCurrentNetwork().contracts.dexRouter;
+
+    return Boolean(
+        router && router !== ZERO_ADDRESS
+    );
 
 }
 

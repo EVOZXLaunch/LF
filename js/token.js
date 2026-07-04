@@ -10,12 +10,17 @@ import {
     NETWORK,
     ABI,
     explorerAddress,
-    isZeroAddress
+    isZeroAddress,
+    isDexReady
 } from "./config.js";
 
 import {
     initializeWallet
 } from "./wallet.js";
+
+import {
+    addLiquidityNative
+} from "./liquidity.js";
 
 // =====================================================
 // STATE
@@ -134,6 +139,32 @@ function setOwnerStatus(
     const el =
         document.getElementById(
             "ownerStatus"
+        );
+
+    if (!el) {
+        return;
+    }
+
+    el.className =
+        "status-panel";
+
+    if (type) {
+        el.classList.add(type);
+    }
+
+    el.textContent =
+        message;
+
+}
+
+function setLiquidityStatus(
+    message,
+    type = ""
+) {
+
+    const el =
+        document.getElementById(
+            "liquidityStatus"
         );
 
     if (!el) {
@@ -1340,6 +1371,128 @@ async function disableTradingAction() {
 
 }
 
+async function addLiquidityAction() {
+
+    try {
+
+        if (!isDexReady()) {
+
+            setLiquidityStatus(
+                "No DEX router configured for this network yet.",
+                "error"
+            );
+
+            return;
+
+        }
+
+        const tokenAmount =
+            document
+                .getElementById("liquidityTokenAmount")
+                ?.value
+                .trim();
+
+        const nativeAmount =
+            document
+                .getElementById("liquidityNativeAmount")
+                ?.value
+                .trim();
+
+        const slippagePercent =
+            Number(
+                document
+                    .getElementById("liquiditySlippage")
+                    ?.value
+            ) || 2;
+
+        if (!tokenAmount || Number(tokenAmount) <= 0) {
+
+            setLiquidityStatus(
+                "Enter a valid token amount.",
+                "error"
+            );
+
+            return;
+
+        }
+
+        if (!nativeAmount || Number(nativeAmount) <= 0) {
+
+            setLiquidityStatus(
+                `Enter a valid ${NETWORK.symbol} amount.`,
+                "error"
+            );
+
+            return;
+
+        }
+
+        if (!window.ethereum) {
+
+            setLiquidityStatus(
+                "Wallet not found",
+                "error"
+            );
+
+            return;
+
+        }
+
+        await window.ethereum.request({
+            method: "eth_requestAccounts"
+        });
+
+        setLiquidityStatus(
+            "Waiting for wallet confirmation..."
+        );
+
+        const result =
+            await addLiquidityNative({
+
+                tokenAddress: getTokenAddress(),
+
+                tokenAmount,
+
+                nativeAmount,
+
+                tokenDecimals: currentDecimals,
+
+                slippagePercent
+
+            });
+
+        setLiquidityStatus(
+
+            result.pairRegistered
+
+                ? "Liquidity added and pair registered for tax detection."
+
+                : "Liquidity added. Pair was not auto-registered — " +
+                  "only the token owner can register it via setPair().",
+
+            "success"
+
+        );
+
+        await renderToken();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        setLiquidityStatus(
+            error.reason ||
+            error.message ||
+            "Add liquidity failed",
+            "error"
+        );
+
+    }
+
+}
+
 document
     .getElementById(
         "mintButton"
@@ -1366,6 +1519,50 @@ document
         "click",
         disableTradingAction
     );
+
+document
+    .getElementById(
+        "addLiquidityButton"
+    )
+    ?.addEventListener(
+        "click",
+        addLiquidityAction
+    );
+
+(function initLiquidityPanel() {
+
+    const symbolEl =
+        document.getElementById(
+            "liquidityNativeSymbol"
+        );
+
+    if (symbolEl) {
+
+        symbolEl.textContent =
+            NETWORK.symbol;
+
+    }
+
+    const button =
+        document.getElementById(
+            "addLiquidityButton"
+        );
+
+    if (button && !isDexReady()) {
+
+        button.disabled = true;
+
+        button.title =
+            "No DEX router configured for this network yet.";
+
+        setLiquidityStatus(
+            `Add Liquidity is not available on ${NETWORK.name} yet — ` +
+            "no DEX router has been configured."
+        );
+
+    }
+
+})();
 
 // =====================================================
 // EXPORTS
