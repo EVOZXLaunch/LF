@@ -34,19 +34,19 @@ export const NETWORKS = [
         explorer: "https://evozscan.com",
 
         contracts: {
-            factory: "0xbA40773bCF0d30e83c4319796Ec45CA31d6e64bB",
-            exchange: "0x24cCb720F7F8b9247FB50A88F6A6a5A5DD7d9ab8",
+            factory: "0xcd86Ca358283f06581365635372E5bF0D30271D3",
+            exchange: "0x9680B43F695d5245062e59CCA92ad92DE5aed56e",
             treasury: "0x50Cd30Ff7f0fbBD9d0FDe1F60DE8c52D6F390c5C",
-            deployer: ZERO_ADDRESS,
+            deployer: 0x3f81E785628D452A8Aae1536D15A3586B490F0c5,
             // ERC20 token accepted as an alternate payment method
             // (LFT / EVOZX utility token) on this chain.
-            utilityToken: "0x032a962F62Fc1cbc15B19767Aa138deA3B454B74",
-            utilitySymbol: "EVOZX"
+            utilityToken: "0x62B9559F193d111aF92d9a5604d79024BFB1C847",
+            utilitySymbol: "LFT"
         },
 
         // Payment method symbols to probe on-chain via
         // getPaymentMethod(symbol) — "NATIVE" is always tried.
-        paymentSymbols: ["NATIVE", "EVOZX"]
+        paymentSymbols: ["NATIVE", "LFT"]
     },
 
     // ---------------------------------------------------
@@ -355,7 +355,7 @@ export const ASSETS = {
 // prefer reading the live rate from exchange.js instead.
 export const EXCHANGE = {
 
-    evozPerEVOZX: 5
+    evozPerLFT: 0.2
 
 };
 
