@@ -387,8 +387,8 @@ export async function purchaseWithNative(
 
 }
 
-// Legacy alias — old UI called this "buyEVOZX".
-export async function buyEVOZX(requiredNative) {
+// Legacy alias — old UI called this "buyLFT".
+export async function buyLFT(requiredNative) {
 
     const account = getAccount();
 
@@ -471,4 +471,4 @@ export async function autoTopupUtility(requiredAmount) {
 }
 
 // Legacy alias
-export const autoTopupEVOZX = autoTopupUtility;
+export const autoTopupLFT = autoTopupUtility;

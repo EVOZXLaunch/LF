@@ -7,7 +7,7 @@ import {
 } from "./config.js";
 
 import {
-    getEVOZXBalance
+    getLFTBalance
 } from "./factory.js";
 
 import {
@@ -26,6 +26,10 @@ import {
     initializeWallet,
     onAccountChanged
 } from "./wallet.js";
+
+import {
+    friendlyError
+} from "./utils.js";
 
 // =====================================================
 // STATE
@@ -216,6 +220,9 @@ export function getFormData() {
         supply:
             getNumber("supply"),
 
+        maxSupply:
+            getNumber("maxSupply"),
+
         // FEATURES
 
         burnable:
@@ -251,17 +258,25 @@ export function getFormData() {
                 "maxTxPercent"
             ),
 
-        // TRADING
+        // ANTI-BOT / ACCESS CONTROL
 
-        tradingControlEnabled:
-            isChecked(
-                "tradingControlEnabled"
-            ),
+        antiBot:
+            isChecked("antiBot"),
 
-        tradingEnabled:
-            isChecked(
-                "tradingEnabled"
-            ),
+        antiBotBlocks:
+            getNumber("antiBotBlocks"),
+
+        tradingDelay:
+            isChecked("tradingDelay"),
+
+        tradingDelaySeconds:
+            getNumber("tradingDelaySeconds"),
+
+        blacklist:
+            isChecked("blacklist"),
+
+        whitelist:
+            isChecked("whitelist"),
 
         // TAX
 
@@ -285,9 +300,49 @@ export function getFormData() {
                 "sellTax"
             ),
 
+        transferTaxEnabled:
+            isChecked(
+                "transferTaxEnabled"
+            ),
+
+        transferTax:
+            getNumber(
+                "transferTax"
+            ),
+
         burnTaxShare:
             getNumber(
                 "burnTaxShare"
+            ),
+
+        marketingTaxShare:
+            getNumber(
+                "marketingTaxShare"
+            ),
+
+        developmentTaxShare:
+            getNumber(
+                "developmentTaxShare"
+            ),
+
+        treasuryTaxShare:
+            getNumber(
+                "treasuryTaxShare"
+            ),
+
+        liquidityTaxShare:
+            getNumber(
+                "liquidityTaxShare"
+            ),
+
+        buybackTaxShare:
+            getNumber(
+                "buybackTaxShare"
+            ),
+
+        charityTaxShare:
+            getNumber(
+                "charityTaxShare"
             ),
 
         // WALLETS
@@ -300,6 +355,26 @@ export function getFormData() {
         developmentWallet:
             getValue(
                 "developmentWallet"
+            ),
+
+        treasuryWallet:
+            getValue(
+                "treasuryWallet"
+            ),
+
+        liquidityWallet:
+            getValue(
+                "liquidityWallet"
+            ),
+
+        buybackWallet:
+            getValue(
+                "buybackWallet"
+            ),
+
+        charityWallet:
+            getValue(
+                "charityWallet"
             ),
 
         // LINKS
@@ -319,12 +394,10 @@ twitter:
         "twitter"
     ),
 
-logoFile:
-    document
-        .getElementById(
-            "logoFile"
-        )
-        ?.files?.[0] || null
+logoURI:
+    getValue(
+        "logoURI"
+    )
 
     };
 
@@ -394,11 +467,13 @@ function updateFeatureState() {
             "maxTxEnabled"
         );
 
-    const tradingControlEnabled =
+    const antiBot =
 
-        isChecked(
-            "tradingControlEnabled"
-        );
+        isChecked("antiBot");
+
+    const tradingDelay =
+
+        isChecked("tradingDelay");
 
     const buyTaxEnabled =
 
@@ -412,10 +487,17 @@ function updateFeatureState() {
             "sellTaxEnabled"
         );
 
+    const transferTaxEnabled =
+
+        isChecked(
+            "transferTaxEnabled"
+        );
+
     const taxEnabled =
 
         buyTaxEnabled ||
-        sellTaxEnabled;
+        sellTaxEnabled ||
+        transferTaxEnabled;
 
     enable(
         "maxWalletPercent",
@@ -428,8 +510,13 @@ function updateFeatureState() {
     );
 
     enable(
-        "tradingEnabled",
-        tradingControlEnabled
+        "antiBotBlocks",
+        antiBot
+    );
+
+    enable(
+        "tradingDelaySeconds",
+        tradingDelay
     );
 
     enable(
@@ -443,19 +530,69 @@ function updateFeatureState() {
     );
 
     enable(
+        "transferTax",
+        transferTaxEnabled
+    );
+
+    const shareFields = [
         "burnTaxShare",
-        taxEnabled
-    );
+        "marketingTaxShare",
+        "developmentTaxShare",
+        "treasuryTaxShare",
+        "liquidityTaxShare",
+        "buybackTaxShare",
+        "charityTaxShare"
+    ];
 
-    enable(
+    const walletFields = [
         "marketingWallet",
-        taxEnabled
+        "developmentWallet",
+        "treasuryWallet",
+        "liquidityWallet",
+        "buybackWallet",
+        "charityWallet"
+    ];
+
+    shareFields.forEach(
+        id => enable(id, taxEnabled)
     );
 
-    enable(
-        "developmentWallet",
-        taxEnabled
+    walletFields.forEach(
+        id => enable(id, taxEnabled)
     );
+
+    updateTaxShareTotal(shareFields);
+
+}
+
+// =====================================================
+// TAX SHARE TOTAL (must equal exactly 100 on-chain)
+// =====================================================
+
+function updateTaxShareTotal(shareFields) {
+
+    const badge =
+        $("taxShareTotal");
+
+    if (!badge) {
+
+        return;
+
+    }
+
+    const total =
+        shareFields.reduce(
+            (sum, id) => sum + getNumber(id),
+            0
+        );
+
+    badge.textContent =
+        `Total: ${total}/100%`;
+
+    badge.className =
+        total === 100
+            ? "badge badge-green"
+            : "badge badge-red";
 
 }
 
@@ -672,7 +809,7 @@ async function updateWalletPreview() {
         );
 
         setText(
-            "walletEVOZXBalance",
+            "walletLFTBalance",
             "-"
         );
 
@@ -760,17 +897,17 @@ async function updateWalletPreview() {
     try {
 
     const balance =
-        await getEVOZXBalance(
+        await getLFTBalance(
             account
         );
 
     setText(
 
-        "walletEVOZXBalance",
+        "walletLFTBalance",
 
         `${formatToken(
             balance
-        )} ${NETWORK.contracts?.utilitySymbol || "EVOZX"}`
+        )} ${NETWORK.contracts?.utilitySymbol || "LFT"}`
 
     );
 
@@ -784,7 +921,7 @@ catch (error) {
     );
 
     setText(
-        "walletEVOZXBalance",
+        "walletLFTBalance",
         "-"
     );
 
@@ -805,7 +942,7 @@ async function refreshPreview() {
 
         setText("deploymentFee", "-");
 
-        setText("evozxBalance", "-");
+        setText("lftBalance", "-");
 
         setText("requiredEVOZ", "-");
 
@@ -873,7 +1010,7 @@ async function refreshPreview() {
 
         if (preview.method.isNative) {
 
-            setText("evozxBalance", "—");
+            setText("lftBalance", "—");
 
             setText("requiredEVOZ", "Paid in " + NETWORK.symbol);
 
@@ -883,7 +1020,7 @@ async function refreshPreview() {
 
             setText(
 
-                "evozxBalance",
+                "lftBalance",
 
                 `${formatToken(preview.balance)} ${preview.feeSymbol}`
 
@@ -931,7 +1068,7 @@ async function refreshPreview() {
 
             "readyStatus",
 
-            error?.message || "Preview Error"
+            friendlyError(error)
 
         );
 
@@ -1063,90 +1200,6 @@ async function onDeploy() {
         const form =
     getFormData();
 
-if (form.logoFile) {
-
-    const allowedTypes = [
-    "image/png",
-    "image/jpeg",
-    "image/webp"
-];
-
-if (
-    !allowedTypes.includes(
-        form.logoFile.type
-    )
-) {
-
-    alert(
-        "Supported formats: PNG, JPG, WEBP"
-    );
-
-    return;
-
-}
-
-    if (
-    form.logoFile.size >
-    2 * 1024 * 1024
-) {
-
-    alert(
-        "Logo max 2 MB."
-    );
-
-    return;
-
-    }
-
-    setStatus(
-        "Uploading logo to IPFS..."
-    );
-
-    const fd =
-        new FormData();
-
-    fd.append(
-        "file",
-        form.logoFile
-    );
-
-    const response =
-        await fetch(
-            "/api/upload-logo",
-            {
-                method: "POST",
-                body: fd
-            }
-        );
-
-    const result =
-        await response.json();
-
-    if (!result.success) {
-
-        throw new Error(
-            result.error ||
-            "Logo upload failed."
-        );
-
-    }
-
-    form.logoURI =
-        result.url;
-
-    setStatus(
-    `✅ Logo uploaded to IPFS
-CID: ${result.cid}`
-);
-
-    await new Promise(
-        resolve => setTimeout(
-            resolve,
-            1000
-        )
-    );
-}
-
 setStatus(
     "Waiting for wallet confirmation..."
 );
@@ -1162,8 +1215,7 @@ catch (error) {
     console.error(error);
 
     const message =
-        error?.message ||
-        "Deployment failed.";
+        friendlyError(error);
 
     setStatus(message);
 
@@ -1262,9 +1314,7 @@ async function initialize() {
 
         setStatus(
 
-            error?.message ||
-
-            "Launch page initialization failed."
+            friendlyError(error)
 
         );
 

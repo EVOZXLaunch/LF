@@ -26,6 +26,11 @@ export const NETWORKS = [
 
     {
         chainId: 805,
+        // "key" selects the ABI folder for this chain: ./abi/<key>/
+        // Also used as the persistent identifier for this network
+        // (separate from chainId) so ABIs can be swapped per-chain
+        // without touching any other file.
+        key: "evoz",
         chainIdHex: "0x325",
         name: "EVOZ Mainnet",
         symbol: "EVOZ",
@@ -34,14 +39,14 @@ export const NETWORKS = [
         explorer: "https://evozscan.com",
 
         contracts: {
-            factory: "0xbA40773bCF0d30e83c4319796Ec45CA31d6e64bB",
-            exchange: "0x24cCb720F7F8b9247FB50A88F6A6a5A5DD7d9ab8",
+            factory: "0x818515991962dd22bE02Aadc4895FCC6366dF9B1",
+            exchange: "0x9680B43F695d5245062e59CCA92ad92DE5aed56e",
             treasury: "0x50Cd30Ff7f0fbBD9d0FDe1F60DE8c52D6F390c5C",
-            deployer: ZERO_ADDRESS,
+            deployer: "0xf65378BdAC0b8028535a3b4b3b6E8585BbB66fA4",
             // ERC20 token accepted as an alternate payment method
-            // (LFT / EVOZX utility token) on this chain.
-            utilityToken: "0x032a962F62Fc1cbc15B19767Aa138deA3B454B74",
-            utilitySymbol: "EVOZX",
+            // (LFT utility token) on this chain.
+            utilityToken: "0x62B9559F193d111aF92d9a5604d79024BFB1C847",
+            utilitySymbol: "LFT",
             // Uniswap-V2-style DEX router used by the "Add Liquidity"
             // feature on the token page. Fill in with the real router
             // address for EVOZ Mainnet's DEX once known — until then,
@@ -51,7 +56,7 @@ export const NETWORKS = [
 
         // Payment method symbols to probe on-chain via
         // getPaymentMethod(symbol) — "NATIVE" is always tried.
-        paymentSymbols: ["NATIVE", "EVOZX"]
+        paymentSymbols: ["NATIVE", "LFT"]
     },
 
     // ---------------------------------------------------
@@ -63,6 +68,7 @@ export const NETWORKS = [
 
     {
         chainId: 1,
+        key: "ethereum",
         chainIdHex: "0x1",
         name: "Ethereum Mainnet",
         symbol: "ETH",
@@ -83,6 +89,7 @@ export const NETWORKS = [
 
     {
         chainId: 56,
+        key: "bsc",
         chainIdHex: "0x38",
         name: "BNB Smart Chain",
         symbol: "BNB",
@@ -103,6 +110,7 @@ export const NETWORKS = [
 
     {
         chainId: 137,
+        key: "polygon",
         chainIdHex: "0x89",
         name: "Polygon",
         symbol: "POL",
@@ -122,7 +130,50 @@ export const NETWORKS = [
     },
 
     {
+        chainId: 42161,
+        key: "arbitrum",
+        chainIdHex: "0xa4b1",
+        name: "Arbitrum One",
+        symbol: "ETH",
+        decimals: 18,
+        rpcUrl: "https://arb1.arbitrum.io/rpc",
+        explorer: "https://arbiscan.io",
+        contracts: {
+            factory: ZERO_ADDRESS,
+            exchange: ZERO_ADDRESS,
+            treasury: ZERO_ADDRESS,
+            deployer: ZERO_ADDRESS,
+            utilityToken: ZERO_ADDRESS,
+            utilitySymbol: "LFT",
+            dexRouter: ZERO_ADDRESS
+        },
+        paymentSymbols: ["NATIVE", "LFT"]
+    },
+
+    {
+        chainId: 8453,
+        key: "base",
+        chainIdHex: "0x2105",
+        name: "Base",
+        symbol: "ETH",
+        decimals: 18,
+        rpcUrl: "https://mainnet.base.org",
+        explorer: "https://basescan.org",
+        contracts: {
+            factory: ZERO_ADDRESS,
+            exchange: ZERO_ADDRESS,
+            treasury: ZERO_ADDRESS,
+            deployer: ZERO_ADDRESS,
+            utilityToken: ZERO_ADDRESS,
+            utilitySymbol: "LFT",
+            dexRouter: ZERO_ADDRESS
+        },
+        paymentSymbols: ["NATIVE", "LFT"]
+    },
+
+    {
         chainId: 11155111,
+        key: "sepolia",
         chainIdHex: "0xaa36a7",
         name: "Sepolia Testnet",
         symbol: "ETH",
@@ -311,7 +362,7 @@ export const CONTRACTS = new Proxy({}, {
         if (prop === "explorer") {
             return network.explorer;
         }
-        if (prop === "evozx") {
+        if (prop === "lft") {
             return network.contracts.utilityToken;
         }
         return network.contracts[prop];
@@ -335,19 +386,47 @@ export const STORAGE = {
 // =====================================================
 // ABI PATHS
 // =====================================================
+//
+// Per-chain contracts (LFTFactory / LFTDeployer / the
+// LaunchFuture ERC20Max token template / exchange) live under
+// ./abi/<network.key>/ so every chain can carry its own copy
+// even if a future version diverges. Generic, chain-agnostic
+// interfaces (plain ERC20, Uniswap-V2-style router/factory)
+// live once under ./abi/shared/ and are reused everywhere.
+//
+// This resolves against getCurrentNetwork() every time it's
+// read, so switching networks automatically switches which
+// ABI files get fetched — no other file needs to change when
+// a new chain is added.
 
-export const ABI = {
+function abiPathsForNetwork(network) {
 
-    factory: "./abi/factory.json",
-    exchange: "./abi/exchange.json",
-    evozx: "./abi/evozx.json",
-    token: "./abi/token.json",
-    erc20: "./abi/erc20.json",
-    deployer: "./abi/deployer.json",
-    router: "./abi/router.json",
-    dexFactory: "./abi/dexfactory.json"
+    const dir = `./abi/${network.key}`;
 
-};
+    return {
+
+        factory: `${dir}/LFTFactory.json`,
+        deployer: `${dir}/LFTDeployer.json`,
+        exchange: `${dir}/LaunchFutureExchange.json`,
+        token: `${dir}/LaunchFutureToken.json`,
+        // The utility/payment token (LFT) is itself an
+        // ERC20Max deployed from the same template.
+        lft: `${dir}/LaunchFutureToken.json`,
+
+        // Chain-agnostic interfaces — same everywhere.
+        erc20: "./abi/shared/ERC20.json",
+        router: "./abi/shared/UniswapV2Router.json",
+        dexFactory: "./abi/shared/UniswapV2Factory.json"
+
+    };
+
+}
+
+export const ABI = new Proxy({}, {
+    get(_target, prop) {
+        return abiPathsForNetwork(getCurrentNetwork())[prop];
+    }
+});
 
 export const DOWNLOADS = {
 
@@ -362,11 +441,11 @@ export const ASSETS = {
 };
 
 // Legacy static exchange rate constant. Kept only so old
-// screens that import EXCHANGE.evozPerEVOZX don't crash;
+// screens that import EXCHANGE.lftPerNative don't crash;
 // prefer reading the live rate from exchange.js instead.
 export const EXCHANGE = {
 
-    evozPerEVOZX: 5
+    lftPerNative: 5
 
 };
 

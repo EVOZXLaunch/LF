@@ -38,7 +38,9 @@ let utilityReadContract = null;
 onNetworkChanged(() => {
 
     // Force every cached contract/provider to be rebuilt
-    // against the newly selected network on next use.
+    // against the newly selected network on next use. ABIs
+    // are also cleared since they are now resolved per
+    // network (./abi/<network.key>/...).
     cachedChainId = null;
 
     readProvider = null;
@@ -46,6 +48,12 @@ onNetworkChanged(() => {
     factoryReadContract = null;
 
     utilityReadContract = null;
+
+    factoryAbi = null;
+
+    factoryInterface = null;
+
+    erc20Abi = null;
 
 });
 
@@ -130,8 +138,8 @@ export async function loadERC20Abi() {
 
 }
 
-// Legacy alias — older modules import loadEVOZXAbi().
-export const loadEVOZXAbi = loadERC20Abi;
+// Legacy alias — older modules import loadLFTAbi().
+export const loadLFTAbi = loadERC20Abi;
 
 // =====================================================
 // PROVIDER
@@ -214,12 +222,12 @@ export const getFactoryForWrite =
     getFactoryWrite;
 
 /// Read-only contract for the network's utility/payment ERC20
-/// token (e.g. EVOZX). Works for any standard ERC20.
+/// token (e.g. LFT). Works for any standard ERC20.
 export async function getUtilityRead() {
 
     resetCacheIfNetworkChanged();
 
-    if (!CONTRACTS.evozx || CONTRACTS.evozx === ZeroAddress) {
+    if (!CONTRACTS.lft || CONTRACTS.lft === ZeroAddress) {
 
         return null;
 
@@ -234,7 +242,7 @@ export async function getUtilityRead() {
     utilityReadContract =
         new Contract(
 
-            CONTRACTS.evozx,
+            CONTRACTS.lft,
 
             await loadERC20Abi(),
 
@@ -259,7 +267,7 @@ export async function getUtilityWrite() {
 
     }
 
-    if (!CONTRACTS.evozx || CONTRACTS.evozx === ZeroAddress) {
+    if (!CONTRACTS.lft || CONTRACTS.lft === ZeroAddress) {
 
         throw new Error(
             "No utility token configured for this network."
@@ -269,7 +277,7 @@ export async function getUtilityWrite() {
 
     return new Contract(
 
-        CONTRACTS.evozx,
+        CONTRACTS.lft,
 
         await loadERC20Abi(),
 
@@ -280,8 +288,8 @@ export async function getUtilityWrite() {
 }
 
 // Legacy aliases
-export const getEVOZXRead = getUtilityRead;
-export const getEVOZXWrite = getUtilityWrite;
+export const getLFTRead = getUtilityRead;
+export const getLFTWrite = getUtilityWrite;
 
 // =====================================================
 // EVENT PARSER
@@ -806,9 +814,9 @@ export async function approveUtility(amount) {
 }
 
 // Legacy aliases used by dashboard.js / launch.js / exchange.js
-export const getEVOZXBalance = getUtilityBalance;
-export const getEVOZXAllowance = getUtilityAllowance;
-export const approveEVOZX = approveUtility;
+export const getLFTBalance = getUtilityBalance;
+export const getLFTAllowance = getUtilityAllowance;
+export const approveLFT = approveUtility;
 
 // =====================================================
 // PREDICT ADDRESS

@@ -4,6 +4,8 @@
 // FINAL
 // ======================================================
 
+import { NETWORK } from "./config.js";
+
 export async function copyToClipboard(text) {
 
     try {
@@ -366,3 +368,146 @@ export function sleep(ms) {
     );
 
   }
+
+// ======================================================
+// FRIENDLY BLOCKCHAIN ERROR MESSAGE
+// ======================================================
+//
+// ethers v6 errors are NOT safe to show as-is: `.message` on
+// a CallExceptionError / insufficient-funds error includes the
+// full raw transaction (calldata, hex value, nested RPC
+// payload) serialized as one giant string. Showing that
+// directly in a status bar or alert() produces an unreadable
+// wall of hex — which is what native in-app wallet browsers
+// (TokenPocket, MetaMask Mobile, etc.) end up displaying
+// verbatim in their own "Tips" dialog.
+//
+// This always returns a short, human-readable string, no
+// matter what shape the thrown error has.
+
+export function friendlyError(error) {
+
+    if (!error) {
+
+        return "Something went wrong. Please try again.";
+
+    }
+
+    // Plain string was thrown/passed directly.
+    if (typeof error === "string") {
+
+        return error;
+
+    }
+
+    const code =
+        error.code || error.info?.error?.code;
+
+    // User closed the wallet prompt / tapped "Reject".
+    if (code === "ACTION_REJECTED") {
+
+        return "Transaction rejected in your wallet.";
+
+    }
+
+    // Not enough native balance to cover value + gas.
+    if (
+        code === "INSUFFICIENT_FUNDS" ||
+        /insufficient funds/i.test(error.shortMessage || "")
+    ) {
+
+        const have =
+            extractWei(error, /have (\d+)/);
+
+        const want =
+            extractWei(error, /want (\d+)/);
+
+        if (have !== null && want !== null) {
+
+            const symbol =
+                NETWORK.symbol || "";
+
+            return (
+                `Insufficient balance to cover the deployment fee + gas. ` +
+                `You have ${formatWei(have)} ${symbol}, but need ${formatWei(want)} ${symbol}. ` +
+                `Top up your wallet and try again.`
+            );
+
+        }
+
+        return "Insufficient balance to cover the deployment fee and gas. Top up your wallet and try again.";
+
+    }
+
+    // Contract reverted with a reason string — this is the
+    // cleanest field ethers exposes for that case.
+    if (error.reason) {
+
+        return error.reason;
+
+    }
+
+    // ethers v6 puts the clean one-line summary here; anything
+    // after it in `.message` is the raw dump we want to avoid.
+    if (error.shortMessage) {
+
+        return error.shortMessage;
+
+    }
+
+    // Nested RPC error message, e.g. "err: insufficient funds...".
+    const rpcMessage =
+        error.info?.error?.message;
+
+    if (rpcMessage && rpcMessage.length < 200) {
+
+        return rpcMessage;
+
+    }
+
+    // Last resort — never return a multi-hundred-character
+    // blob. Truncate hard so at least the dialog stays legible.
+    const raw =
+        error.message || String(error);
+
+    return raw.length > 160
+        ? raw.slice(0, 160) + "…"
+        : raw;
+
+}
+
+function extractWei(error, pattern) {
+
+    const haystack =
+        error.info?.error?.message ||
+        error.shortMessage ||
+        error.message ||
+        "";
+
+    const match =
+        haystack.match(pattern);
+
+    return match ? BigInt(match[1]) : null;
+
+}
+
+function formatWei(wei) {
+
+    const whole =
+        wei / 1_000_000_000_000_000_000n;
+
+    const fraction =
+        wei % 1_000_000_000_000_000_000n;
+
+    const fractionStr =
+        fraction
+            .toString()
+            .padStart(18, "0")
+            .slice(0, 4)
+            .replace(/0+$/, "");
+
+    return fractionStr
+        ? `${whole}.${fractionStr}`
+        : `${whole}`;
+
+}

@@ -13,7 +13,7 @@ import {
 import {
     getReadProvider,
     getTokensByCreator,
-    getEVOZXBalance
+    getLFTBalance
 } from "./factory.js";
 
 import {
@@ -35,7 +35,7 @@ const DEAD_ADDRESS =
 // =====================================================
 
 let tokenAbi = null;
-let evozxAbi = null;
+let lftAbi = null;
 
 let tokenCache = [];
 
@@ -182,31 +182,31 @@ async function loadTokenAbi() {
 
 }
 
-async function loadEVOZXAbi() {
+async function loadLFTAbi() {
 
-    if (evozxAbi) {
+    if (lftAbi) {
 
-        return evozxAbi;
+        return lftAbi;
 
     }
 
     const response =
         await fetch(
-            ABI.evozx
+            ABI.lft
         );
 
     if (!response.ok) {
 
         throw new Error(
-            "Unable to load EVOZX ABI."
+            "Unable to load LFT ABI."
         );
 
     }
 
-    evozxAbi =
+    lftAbi =
         await response.json();
 
-    return evozxAbi;
+    return lftAbi;
 
 }
 
@@ -233,11 +233,11 @@ async function createTokenContract(
 
 }
 
-async function getEVOZXContract() {
+async function getLFTContract() {
 
     if (
-        !CONTRACTS.evozx ||
-        CONTRACTS.evozx === "0x0000000000000000000000000000000000000000"
+        !CONTRACTS.lft ||
+        CONTRACTS.lft === "0x0000000000000000000000000000000000000000"
     ) {
 
         return null;
@@ -245,11 +245,11 @@ async function getEVOZXContract() {
     }
 
     const abi =
-        await loadEVOZXAbi();
+        await loadLFTAbi();
 
     return new Contract(
 
-        CONTRACTS.evozx,
+        CONTRACTS.lft,
 
         abi,
 
@@ -281,7 +281,7 @@ async function loadWalletSummary() {
         );
 
         setText(
-            "dashboardEVOZX",
+            "dashboardLFT",
             "-"
         );
 
@@ -340,21 +340,21 @@ async function loadWalletSummary() {
     }
 
     // =====================================
-    // EVOZX BALANCE
+    // LFT BALANCE
     // =====================================
 
     try {
 
         const balance =
-            await getEVOZXBalance(
+            await getLFTBalance(
                 account
             );
 
         setText(
-            "dashboardEVOZX",
+            "dashboardLFT",
             `${formatToken(
                 balance
-            )} EVOZX`
+            )} LFT`
         );
 
     }
@@ -362,12 +362,12 @@ async function loadWalletSummary() {
     catch (error) {
 
         console.error(
-            "EVOZX BALANCE ERROR:",
+            "LFT BALANCE ERROR:",
             error
         );
 
         setText(
-            "dashboardEVOZX",
+            "dashboardLFT",
             "-"
         );
 
@@ -384,7 +384,7 @@ async function loadPlatformStatistics() {
     try {
 
         const contract =
-            await getEVOZXContract();
+            await getLFTContract();
 
         if (!contract) {
 
@@ -425,7 +425,7 @@ async function loadPlatformStatistics() {
         );
 
         setText(
-            "totalBurnedEVOZX",
+            "totalBurnedLFT",
             formatToken(
                 burned
             )
@@ -473,7 +473,7 @@ async function loadPlatformStatistics() {
 
             setText(
                 "lastBurn",
-                "15 EVOZX"
+                "15 LFT"
             );
 
         }
@@ -1110,7 +1110,7 @@ function loadRecentBurnActivity() {
 
     <div class="activity-burn">
 
-        15 EVOZX
+        15 LFT
 
     </div>
 

@@ -22,6 +22,10 @@ import {
     addLiquidityNative
 } from "./liquidity.js";
 
+import {
+    friendlyError
+} from "./utils.js";
+
 // =====================================================
 // STATE
 // =====================================================
@@ -1283,8 +1287,7 @@ async function mintToken() {
         console.error(error);
 
         setOwnerStatus(
-            error.reason ||
-            error.message ||
+            friendlyError(error) ||
             "Mint failed",
             "error"
         );
@@ -1353,8 +1356,7 @@ async function enableTradingAction() {
         console.error(error);
 
         setOwnerStatus(
-            error.reason ||
-            error.message ||
+            friendlyError(error) ||
             "Enable trading failed",
             "error"
         );
@@ -1483,8 +1485,7 @@ async function addLiquidityAction() {
         console.error(error);
 
         setLiquidityStatus(
-            error.reason ||
-            error.message ||
+            friendlyError(error) ||
             "Add liquidity failed",
             "error"
         );

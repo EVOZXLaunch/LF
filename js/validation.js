@@ -26,7 +26,9 @@ export const LIMITS={
 
   MIN_PERCENT:1,
 
-  MAX_PERCENT:10,
+  // Contract only requires >0 when enabled — no upper cap
+  // besides 100% of supply (ERC20MaxTransferLib divides by 100).
+  MAX_PERCENT:100,
 
   MAX_URL_LENGTH:300,
 
@@ -169,6 +171,67 @@ export function validateSupply(value){
 }
 
 // =====================================================
+// MAX SUPPLY
+// =====================================================
+
+export function validateMaxSupply(maxSupply, supply){
+
+  maxSupply=Number(maxSupply);
+
+  if(!maxSupply){
+
+    // Optional — blank means "default to Total Supply".
+    return "";
+
+  }
+
+  if(!Number.isFinite(maxSupply) || maxSupply<=0){
+
+    return "Invalid max supply.";
+
+  }
+
+  if(maxSupply<Number(supply)){
+
+    return "Max Supply must be greater than or equal to Total Supply.";
+
+  }
+
+  if(maxSupply>LIMITS.MAX_SUPPLY){
+
+    return "Maximum supply is 1 trillion.";
+
+  }
+
+  return "";
+
+}
+
+// =====================================================
+// POSITIVE-WHEN-ENABLED (Anti-Bot Blocks / Trading Delay Seconds)
+// =====================================================
+
+export function validatePositiveWhenEnabled(enabled, value, label){
+
+  if(!enabled){
+
+    return "";
+
+  }
+
+  value=Number(value);
+
+  if(!Number.isFinite(value) || value<=0){
+
+    return `${label} must be greater than 0 when enabled.`;
+
+  }
+
+  return "";
+
+}
+
+// =====================================================
 // TAX
 // =====================================================
 
@@ -220,7 +283,7 @@ export function validatePercent(value){
 
   ){
 
-    return "Percentage must be between 1 and 10.";
+    return `Percentage must be between ${LIMITS.MIN_PERCENT} and ${LIMITS.MAX_PERCENT}.`;
   }
 
   return "";
@@ -297,45 +360,115 @@ export function validateAddress(address){
 
 export function validateTaxReceivers(config){
 
-  if(
+  const anyTaxEnabled=
 
-    !config.buyTaxEnabled &&
+    config.buyTaxEnabled ||
 
-    !config.sellTaxEnabled
+    config.sellTaxEnabled ||
 
-  ){
+    config.transferTaxEnabled;
+
+  const shares={
+
+    burn: Number(config.burnTaxShare)||0,
+
+    marketing: Number(config.marketingTaxShare)||0,
+
+    development: Number(config.developmentTaxShare)||0,
+
+    treasury: Number(config.treasuryTaxShare)||0,
+
+    liquidity: Number(config.liquidityTaxShare)||0,
+
+    buyback: Number(config.buybackTaxShare)||0,
+
+    charity: Number(config.charityTaxShare)||0
+
+  };
+
+  const total=
+
+    Object.values(shares)
+
+      .reduce((sum,v)=>sum+v,0);
+
+  // If nothing is configured at all, the app defaults
+  // everything to 100% burn — always valid, skip the check.
+  if(total===0){
 
     return "";
 
   }
 
-  const burn=
+  if(total!==100){
 
-    Number(config.burnTaxShare);
-
-  const marketing=
-
-    text(config.marketingWallet);
-
-  const development=
-
-    text(config.developmentWallet);
-
-  if(
-
-    burn>0 ||
-
-    marketing ||
-
-    development
-
-  ){
-
-    return "";
+    return `Tax shares must add up to exactly 100% (currently ${total}%).`;
 
   }
 
-  return "Buy Tax or Sell Tax requires Burn Share or Marketing Wallet or Development Wallet.";
+  const walletFor={
+
+    marketing:"marketingWallet",
+
+    development:"developmentWallet",
+
+    treasury:"treasuryWallet",
+
+    liquidity:"liquidityWallet",
+
+    buyback:"buybackWallet",
+
+    charity:"charityWallet"
+
+  };
+
+  const labelFor={
+
+    marketing:"Marketing",
+
+    development:"Development",
+
+    treasury:"Treasury",
+
+    liquidity:"Liquidity",
+
+    buyback:"Buyback",
+
+    charity:"Charity"
+
+  };
+
+  for(const key of Object.keys(walletFor)){
+
+    if(shares[key]>0){
+
+      const wallet=
+
+        text(config[walletFor[key]]);
+
+      if(!wallet){
+
+        return `${labelFor[key]} Share is set but ${labelFor[key]} Wallet is empty.`;
+
+      }
+
+      if(validateAddress(wallet)){
+
+        return `${labelFor[key]} Wallet is not a valid address.`;
+
+      }
+
+    }
+
+  }
+
+  if(anyTaxEnabled && total!==100){
+
+    return "Buy/Sell/Transfer Tax requires the tax shares above to add up to 100%.";
+
+  }
+
+  return "";
 
 }
 
@@ -379,6 +512,16 @@ export function validateConfig(config){
 
   if(
 
+    (error=validateMaxSupply(config.maxSupply, config.supply))
+
+  ){
+
+    return error;
+
+  }
+
+  if(
+
     config.buyTaxEnabled &&
 
     (error=validateTax(config.buyTax))
@@ -394,6 +537,54 @@ export function validateConfig(config){
     config.sellTaxEnabled &&
 
     (error=validateTax(config.sellTax))
+
+  ){
+
+    return error;
+
+  }
+
+  if(
+
+    config.transferTaxEnabled &&
+
+    (error=validateTax(config.transferTax))
+
+  ){
+
+    return error;
+
+  }
+
+  if(
+
+    (error=validatePositiveWhenEnabled(
+
+      config.antiBot,
+
+      config.antiBotBlocks,
+
+      "Anti-Bot Blocks"
+
+    ))
+
+  ){
+
+    return error;
+
+  }
+
+  if(
+
+    (error=validatePositiveWhenEnabled(
+
+      config.tradingDelay,
+
+      config.tradingDelaySeconds,
+
+      "Trading Delay Seconds"
+
+    ))
 
   ){
 
@@ -510,6 +701,62 @@ export function validateConfig(config){
     (error=validateAddress(
 
       config.developmentWallet
+
+    ))
+
+  ){
+
+    return error;
+
+  }
+
+  if(
+
+    (error=validateAddress(
+
+      config.treasuryWallet
+
+    ))
+
+  ){
+
+    return error;
+
+  }
+
+  if(
+
+    (error=validateAddress(
+
+      config.liquidityWallet
+
+    ))
+
+  ){
+
+    return error;
+
+  }
+
+  if(
+
+    (error=validateAddress(
+
+      config.buybackWallet
+
+    ))
+
+  ){
+
+    return error;
+
+  }
+
+  if(
+
+    (error=validateAddress(
+
+      config.charityWallet
 
     ))
 
