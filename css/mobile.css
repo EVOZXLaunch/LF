@@ -1,0 +1,526 @@
+/* =====================================================
+   LaunchFuture
+   mobile.css
+   Mobile layout fixes (loaded after app.css / payment.css)
+   ===================================================== */
+
+/* =====================================================
+   GLOBAL SAFETY
+   ===================================================== */
+html, body{
+    overflow-x: hidden;
+    width: 100%;
+}
+
+#app{
+    overflow: visible;
+}
+
+/* =====================================================
+   TABLET (<=900px)
+   ===================================================== */
+@media (max-width: 900px){
+
+    .container{
+        width: calc(100% - 32px);
+    }
+
+    #workspace{
+        gap: 20px;
+    }
+
+    #wizardSection{
+        gap: 18px;
+    }
+}
+
+/* =====================================================
+   MOBILE (<=768px)
+   ===================================================== */
+@media (max-width: 768px){
+
+    .container{
+        width: calc(100% - 28px);
+    }
+
+    /* ---------- Topbar ---------- */
+    #topbar{
+        backdrop-filter: blur(24px);
+    }
+
+    .topbarInner{
+        min-height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        padding: 14px 0;
+    }
+
+    .brand{
+        gap: 12px;
+    }
+
+    .brandLogo{
+        width: 56px;
+        height: 56px;
+    }
+
+    .brand h1{
+        font-size: 1.15rem;
+    }
+
+    .brand p{
+        font-size: .72rem;
+    }
+
+    .topbarTools{
+        display: grid;
+        grid-template-columns: 1fr 48px;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .dropdown{
+        grid-column: 1 / -1;
+    }
+
+    .dropdownToggle{
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .clockCard{
+        min-width: 0;
+        width: 100%;
+    }
+
+    .themeButton{
+        width: 48px;
+        flex-shrink: 0;
+    }
+
+    .walletButton{
+        grid-column: 1 / -1;
+        width: 100%;
+        min-width: 0;
+        justify-content: center;
+    }
+
+    /* ---------- Hero ---------- */
+    #hero{
+        padding: 40px 0 34px;
+        text-align: center;
+    }
+
+    .heroBadge{
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .heroInner h2{
+        font-size: 2.15rem;
+        letter-spacing: -1px;
+        margin-bottom: 16px;
+    }
+
+    .heroInner p{
+        font-size: .92rem;
+        line-height: 1.65;
+    }
+
+    .heroActions{
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .heroActions .primaryButton,
+    .heroActions .secondaryButton{
+        width: 100%;
+    }
+
+    /* ---------- Timeline ---------- */
+    #wizardTimeline{
+        padding: 16px 14px;
+        gap: 6px;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+    }
+
+    .timelineStep{
+        min-width: 68px;
+        flex: 0 0 auto;
+        gap: 8px;
+        scroll-snap-align: start;
+    }
+
+    .timelineStep span{
+        width: 36px;
+        height: 36px;
+        font-size: .85rem;
+    }
+
+    .timelineStep small{
+        font-size: .66rem;
+        white-space: nowrap;
+    }
+
+    #timelineProgress{
+        top: 34px;
+    }
+
+    /* ---------- Wizard card ---------- */
+    #wizardCard,
+    #previewCard{
+        border-radius: 18px;
+    }
+
+    #wizardHeader{
+        padding: 20px;
+    }
+
+    .stepBadge{
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 14px;
+    }
+
+    #wizardTitle{
+        font-size: 1.4rem;
+    }
+
+    #wizardDescription{
+        font-size: .88rem;
+    }
+
+    #wizardBody{
+        padding: 20px;
+    }
+
+    #wizardNavigation{
+        padding: 16px 20px;
+    }
+
+    #backButton,
+    #nextButton{
+        flex: 1;
+        min-width: 0;
+        padding: 0 16px;
+    }
+
+    #stepCounter{
+        min-width: 60px;
+        text-align: center;
+        font-size: .85rem;
+    }
+
+    /* ---------- Step intro ---------- */
+    .stepIntro{
+        margin-bottom: 22px;
+    }
+
+    .stepIntro h3{
+        font-size: 1.25rem;
+    }
+
+    .stepLabel{
+        font-size: .72rem;
+    }
+
+    /* ---------- Forms ---------- */
+    .formGrid{
+        gap: 16px;
+        margin-bottom: 22px;
+    }
+
+    .twoColumn,
+    .threeColumn{
+        grid-template-columns: 1fr;
+    }
+
+    input, select, textarea{
+        padding: 13px 15px;
+        border-radius: 13px;
+        font-size: .92rem;
+    }
+
+    /* ---------- Wallet grid ---------- */
+    #walletGrid{
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .walletOption{
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    /* ---------- Status / summary cards ---------- */
+    #walletStatusCard,
+    .summaryCard,
+    .healthCard,
+    .reviewCard,
+    .deployStatusCard,
+    .deployResultCard,
+    .deployConsole{
+        margin-top: 18px;
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .statusGrid,
+    .summaryGrid,
+    .reviewGrid{
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 12px;
+        margin-top: 14px;
+    }
+
+    .statusItem strong,
+    .reviewItem strong{
+        font-size: .88rem;
+        overflow-wrap: anywhere;
+    }
+
+    /* ---------- Features ---------- */
+    details{
+        margin-bottom: 12px;
+        border-radius: 16px;
+    }
+
+    summary{
+        padding: 16px 18px;
+        font-size: .95rem;
+    }
+
+    .featureGrid{
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 14px;
+    }
+
+    .featureCard{
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    /* ---------- Upload ---------- */
+    .uploadArea{
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .uploadArea img{
+        width: 76px;
+        height: 76px;
+    }
+
+    /* ---------- Preview card ---------- */
+    #previewSection{
+        position: relative;
+        top: auto;
+    }
+
+    #previewCard{
+        padding: 20px;
+    }
+
+    #previewHeader{
+        margin-bottom: 20px;
+    }
+
+    #previewLogo{
+        width: 84px;
+        height: 84px;
+        margin: 0 auto 18px;
+    }
+
+    #previewLogo img{
+        width: 54px;
+    }
+
+    #previewTokenName{
+        margin-bottom: 18px;
+    }
+
+    .previewRow{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 0;
+        font-size: .88rem;
+    }
+
+    .previewRow span{
+        flex-shrink: 0;
+    }
+
+    .previewRow strong{
+        text-align: right;
+        overflow-wrap: anywhere;
+        max-width: 60%;
+    }
+
+    #feeCalculatorButton{
+        margin-top: 20px;
+    }
+
+    /* ---------- Highlights ---------- */
+    #highlights{
+        margin-top: 24px;
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .highlightCard{
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    /* ---------- Deploy console ---------- */
+    #deployConsoleOutput{
+        font-size: .76rem;
+        min-height: 180px;
+        padding: 16px;
+    }
+
+    .deployStep{
+        gap: 12px;
+        padding: 16px 0;
+    }
+
+    .deployIcon{
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+    }
+
+    /* ---------- Footer ---------- */
+    #footer{
+        padding: 40px 0 28px;
+    }
+
+    .footerTop{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .footerLinks{
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .footerBottom{
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+        font-size: .78rem;
+    }
+
+    /* ---------- Overlays ---------- */
+    .toast{
+        min-width: auto;
+        width: 100%;
+    }
+
+    #toastContainer{
+        left: 12px;
+        right: 12px;
+        top: 12px;
+    }
+
+    #modalCard{
+        width: calc(100% - 20px);
+        border-radius: 18px;
+    }
+
+    .loadingCard{
+        padding: 26px;
+        border-radius: 18px;
+    }
+}
+
+/* =====================================================
+   SMALL MOBILE (<=480px)
+   ===================================================== */
+@media (max-width: 480px){
+
+    .container{
+        width: calc(100% - 20px);
+    }
+
+    .brand h1{
+        font-size: 1.05rem;
+    }
+
+    .brand p{
+        display: none;
+    }
+
+    .heroInner h2{
+        font-size: 1.8rem;
+    }
+
+    .heroInner p{
+        font-size: .86rem;
+    }
+
+    #wizardTitle{
+        font-size: 1.2rem;
+    }
+
+    #timelineProgress{
+        display: none;
+    }
+
+    .timelineStep{
+        min-width: 58px;
+    }
+
+    .timelineStep span{
+        width: 32px;
+        height: 32px;
+        font-size: .78rem;
+    }
+
+    #wizardHeader,
+    #wizardBody,
+    #wizardNavigation,
+    #previewCard{
+        padding: 16px;
+    }
+
+    .statusGrid,
+    .summaryGrid,
+    .reviewGrid{
+        grid-template-columns: 1fr;
+    }
+
+    .previewRow strong{
+        max-width: 55%;
+        font-size: .84rem;
+    }
+
+    #stepCounter{
+        display: none;
+    }
+
+    #backButton span,
+    #nextButton span{
+        font-size: .92rem;
+    }
+}
+
+/* =====================================================
+   GLOBE (mobile safety)
+   ===================================================== */
+@media (max-width: 768px){
+    #globeContainer{
+        opacity: .85;
+    }
+}

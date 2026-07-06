@@ -1612,6 +1612,18 @@ MOBILE MENU
 
     }
 
+    .brand h1 {
+
+        font-size: 1.1rem;
+
+    }
+
+    .brand p {
+
+        font-size: 0.7rem;
+
+    }
+
     .primary-button,
 .secondary-button {
 
@@ -1620,6 +1632,19 @@ MOBILE MENU
     min-height: 48px;
 
 }
+
+}
+
+@media (max-width: 360px) {
+
+    /* On the narrowest phones, drop the tagline entirely so
+       the brand block, network switcher, and menu button can
+       all coexist on one line without squeezing each other. */
+    .brand p {
+
+        display: none;
+
+    }
 
 }
 
@@ -1956,10 +1981,63 @@ WALLET BRAND
     font-size: 0.85rem;
     font-family: inherit;
     cursor: pointer;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    min-width: 0;
 }
 
 .network-select:hover {
     border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Header must never force a horizontal squeeze that pushes
+   the hamburger button out of the visible viewport. */
+.header-actions {
+    flex-wrap: nowrap;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.header-actions > * {
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.menu-toggle {
+    flex-shrink: 0 !important;
+}
+
+@media (max-width: 480px) {
+
+    .header-actions {
+        gap: 6px;
+    }
+
+    .network-select {
+        max-width: 76px;
+        padding: 5px 6px;
+        font-size: 0.72rem;
+        margin-right: 4px;
+    }
+
+    /* Least essential item on a phone-width header — drop it
+       first so the network switcher and menu button always
+       stay fully visible and tappable. */
+    .live-clock {
+        display: none;
+    }
+
+}
+
+@media (max-width: 360px) {
+
+    .network-select {
+        max-width: 58px;
+    }
+
 }
 
 /* =====================================================
