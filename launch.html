@@ -17,7 +17,7 @@ LaunchFuture • Deploy Token
 
 <meta
     name="description"
-    content="Deploy verified EVOZ20 tokens using LaunchFuture.">
+    content="Deploy verified ERC20Max tokens using LaunchFuture.">
 
 <link
     rel="icon"
@@ -215,6 +215,26 @@ LaunchFuture • Deploy Token
 
                             </div>
 
+                            <div class="form-group full">
+
+                                <label>
+
+                                    Max Supply (optional)
+
+                                </label>
+
+                                <input
+                                    id="maxSupply"
+                                    type="number"
+                                    min="1"
+                                    placeholder="Leave blank to cap at Total Supply">
+
+                                <p class="logo-help">
+                                    Only matters if Mintable is on — the contract will never let supply grow past this. Must be ≥ Total Supply.
+                                </p>
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -323,8 +343,8 @@ LaunchFuture • Deploy Token
                                 id="maxWalletPercent"
                                 type="number"
                                 min="1"
-                                max="10"
-                                placeholder="Max Wallet %">
+                                max="100"
+                                placeholder="Max Wallet % (1-100)">
 
                         </div>
 
@@ -348,8 +368,8 @@ LaunchFuture • Deploy Token
                                 id="maxTxPercent"
                                 type="number"
                                 min="1"
-                                max="10"
-                                placeholder="Max Transaction %">
+                                max="100"
+                                placeholder="Max Transaction % (1-100)">
 
                         </div>
 
@@ -358,7 +378,7 @@ LaunchFuture • Deploy Token
                 </div>
 
                 <!-- ================================================= -->
-                <!-- TRADING -->
+                <!-- ANTI-BOT & ACCESS CONTROL -->
                 <!-- ================================================= -->
 
                 <div class="accordion">
@@ -367,7 +387,7 @@ LaunchFuture • Deploy Token
 
                         <h3>
 
-                            📈 Trading Parameters
+                            🤖 Anti-Bot &amp; Access Control
 
                         </h3>
 
@@ -375,15 +395,67 @@ LaunchFuture • Deploy Token
 
                     <div class="accordion-body">
 
+                        <p class="logo-help">
+                            Trading always starts disabled on deploy. Once your token is live, open its Manage page and call "Enable Trading" whenever you're ready — this lets you add liquidity first.
+                        </p>
+
                         <label class="checkbox-row">
 
                             <input
-                                id="tradingControlEnabled"
+                                id="antiBot"
                                 type="checkbox">
 
                             <span>
 
-                                Trading Control
+                                Anti-Bot (block trades for N blocks after launch)
+
+                            </span>
+
+                        </label>
+
+                        <div class="form-group">
+
+                            <input
+                                id="antiBotBlocks"
+                                type="number"
+                                min="1"
+                                placeholder="Blocks to block after launch">
+
+                        </div>
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="tradingDelay"
+                                type="checkbox">
+
+                            <span>
+
+                                Trading Delay (require a cooldown between trades)
+
+                            </span>
+
+                        </label>
+
+                        <div class="form-group">
+
+                            <input
+                                id="tradingDelaySeconds"
+                                type="number"
+                                min="1"
+                                placeholder="Cooldown seconds between trades">
+
+                        </div>
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="blacklist"
+                                type="checkbox">
+
+                            <span>
+
+                                Blacklist (owner can block specific addresses from trading)
 
                             </span>
 
@@ -392,12 +464,12 @@ LaunchFuture • Deploy Token
                         <label class="checkbox-row">
 
                             <input
-                                id="tradingEnabled"
+                                id="whitelist"
                                 type="checkbox">
 
                             <span>
 
-                                Trading Enabled
+                                Whitelist (only approved addresses can trade)
 
                             </span>
 
@@ -446,7 +518,7 @@ LaunchFuture • Deploy Token
                                 type="number"
                                 min="0"
                                 max="10"
-                                placeholder="Buy Tax %">
+                                placeholder="Buy Tax % (max 10)">
 
                         </div>
 
@@ -471,15 +543,44 @@ LaunchFuture • Deploy Token
                                 type="number"
                                 min="0"
                                 max="10"
-                                placeholder="Sell Tax %">
+                                placeholder="Sell Tax % (max 10)">
 
                         </div>
+
+                        <label class="checkbox-row">
+
+                            <input
+                                id="transferTaxEnabled"
+                                type="checkbox">
+
+                            <span>
+
+                                Transfer Tax (applies to wallet-to-wallet transfers too)
+
+                            </span>
+
+                        </label>
+
+                        <div class="form-group">
+
+                            <input
+                                id="transferTax"
+                                type="number"
+                                min="0"
+                                max="10"
+                                placeholder="Transfer Tax % (max 10)">
+
+                        </div>
+
+                        <p class="logo-help" style="margin-top:16px;">
+                            Whenever any tax above is on, decide where the collected tax goes. The shares below must add up to exactly 100%.
+                        </p>
 
                         <div class="form-group">
 
                             <label>
 
-                                Burn Tax Share
+                                Burn Share
 
                             </label>
 
@@ -487,8 +588,118 @@ LaunchFuture • Deploy Token
                                 id="burnTaxShare"
                                 type="number"
                                 min="0"
-                                max="10"
-                                placeholder="Burn Share %">
+                                max="100"
+                                placeholder="0">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Marketing Share
+
+                            </label>
+
+                            <input
+                                id="marketingTaxShare"
+                                type="number"
+                                min="0"
+                                max="100"
+                                placeholder="0">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Development Share
+
+                            </label>
+
+                            <input
+                                id="developmentTaxShare"
+                                type="number"
+                                min="0"
+                                max="100"
+                                placeholder="0">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Treasury Share
+
+                            </label>
+
+                            <input
+                                id="treasuryTaxShare"
+                                type="number"
+                                min="0"
+                                max="100"
+                                placeholder="0">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Liquidity Share
+
+                            </label>
+
+                            <input
+                                id="liquidityTaxShare"
+                                type="number"
+                                min="0"
+                                max="100"
+                                placeholder="0">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Buyback Share
+
+                            </label>
+
+                            <input
+                                id="buybackTaxShare"
+                                type="number"
+                                min="0"
+                                max="100"
+                                placeholder="0">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Charity Share
+
+                            </label>
+
+                            <input
+                                id="charityTaxShare"
+                                type="number"
+                                min="0"
+                                max="100"
+                                placeholder="0">
+
+                        </div>
+
+                        <div
+                            id="taxShareTotal"
+                            class="badge">
+
+                            Total: 0/100%
 
                         </div>
 
@@ -513,6 +724,10 @@ LaunchFuture • Deploy Token
                     </div>
 
                     <div class="accordion-body">
+
+                        <p class="logo-help">
+                            Only needed for shares above 0% (Burn Share never needs a wallet — it destroys tokens directly).
+                        </p>
 
                         <div class="form-group">
 
@@ -539,6 +754,66 @@ LaunchFuture • Deploy Token
 
                             <input
                                 id="developmentWallet"
+                                type="text"
+                                placeholder="0x...">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Treasury Wallet
+
+                            </label>
+
+                            <input
+                                id="treasuryWallet"
+                                type="text"
+                                placeholder="0x...">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Liquidity Wallet
+
+                            </label>
+
+                            <input
+                                id="liquidityWallet"
+                                type="text"
+                                placeholder="0x...">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Buyback Wallet
+
+                            </label>
+
+                            <input
+                                id="buybackWallet"
+                                type="text"
+                                placeholder="0x...">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Charity Wallet
+
+                            </label>
+
+                            <input
+                                id="charityWallet"
                                 type="text"
                                 placeholder="0x...">
 
@@ -621,9 +896,9 @@ LaunchFuture • Deploy Token
     id="logoFile"
     type="file"
     accept="image/png,image/jpeg,image/webp">
-    
+
 <p class="logo-help">
-⬜ Square (1:1) • 📦 Max 2 MB
+⬜ Square (1:1) • 📦 Max 2 MB • Preview only, not uploaded anywhere
 </p>
 
 <button
@@ -650,7 +925,20 @@ LaunchFuture • Deploy Token
         background:rgba(255,255,255,.03);
         padding:10px;
     ">
-                            
+
+                            <label style="margin-top:16px;display:block;">
+                                Logo URL
+                            </label>
+
+                            <input
+                                id="logoURI"
+                                type="url"
+                                placeholder="https://... or ipfs://...">
+
+                            <p class="logo-help">
+                                Upload your image anywhere (IPFS, Imgur, your own host) and paste the link here — this is what actually gets stored on-chain.
+                            </p>
+
                         </div>
 
                     </div>
@@ -697,11 +985,11 @@ LaunchFuture • Deploy Token
 
                                 <span>
 
-                                    EVOZX Balance
+                                    LFT Balance
 
                                 </span>
 
-                                <strong id="evozxBalance">
+                                <strong id="lftBalance">
 
                                     -
 
@@ -807,11 +1095,11 @@ LaunchFuture • Deploy Token
 
                             <span>
 
-                                EVOZX
+                                LFT
 
                             </span>
 
-                            <strong id="walletEVOZXBalance">
+                            <strong id="walletLFTBalance">
 
                                 -
 
@@ -843,7 +1131,7 @@ LaunchFuture • Deploy Token
 
                             <strong>
 
-                                EVOZ20
+                                ERC20Max
 
                             </strong>
 
@@ -947,7 +1235,7 @@ LaunchFuture • Deploy Token
                 <p>
 
                     LaunchFuture is the official launchpad interface
-                    for deploying verified EVOZ20 tokens.
+                    for deploying verified ERC20Max tokens.
 
                 </p>
 
@@ -969,7 +1257,7 @@ LaunchFuture • Deploy Token
 
                 <p>
 
-                    EVOZ20 Standard
+                    ERC20Max Standard
 
                 </p>
 
