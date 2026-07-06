@@ -847,6 +847,130 @@ export async function predictTokenAddress(
 // =====================================================
 // DEPLOY — NATIVE
 // =====================================================
+//
+// Many lightweight RPC nodes (this is common on smaller/custom
+// EVM chains, EVOZ's own RPC included) don't return revert data
+// on `eth_estimateGas` even when the call would genuinely
+// revert — ethers then surfaces it as a generic
+// "missing revert data" CALL_EXCEPTION with no way to know why.
+//
+// `eth_call` (used by `.staticCall`) is far more likely to
+// return the actual revert payload, so we simulate the exact
+// same call first and decode any custom Solidity error out of
+// it via the ABI — turning an opaque "missing revert data" into
+// a specific, actionable message (e.g. "SymbolExists",
+// "InvalidTaxShares") before the wallet even opens.
+
+async function loadFactoryInterface() {
+
+    await loadFactoryAbi();
+
+    return factoryInterface;
+
+}
+
+function decodeCustomError(error, iface) {
+
+    // ethers v6 often decodes custom errors itself already when
+    // the call runs through a Contract instance — use that if
+    // present, it's already a clean { name, args } shape.
+    if (error?.revert?.name) {
+
+        const args =
+            error.revert.args
+                ?.toString?.() || "";
+
+        return args
+            ? `${error.revert.name}(${args})`
+            : error.revert.name;
+
+    }
+
+    const data =
+        error?.data ||
+        error?.info?.error?.data ||
+        null;
+
+    if (!data || typeof data !== "string") {
+
+        return null;
+
+    }
+
+    try {
+
+        const parsed =
+            iface.parseError(data);
+
+        if (!parsed) {
+
+            return null;
+
+        }
+
+        const args =
+            parsed.args
+                ?.toString?.() || "";
+
+        return args
+            ? `${parsed.name}(${args})`
+            : parsed.name;
+
+    }
+
+    catch {
+
+        return null;
+
+    }
+
+}
+
+async function simulateDeployWithNative(
+    factory,
+    config,
+    metadata,
+    nativeFee
+) {
+
+    try {
+
+        await factory.deployWithNative.staticCall(
+
+            config,
+
+            metadata,
+
+            { value: nativeFee }
+
+        );
+
+    }
+
+    catch (error) {
+
+        const iface =
+            await loadFactoryInterface();
+
+        const decoded =
+            decodeCustomError(error, iface);
+
+        if (decoded) {
+
+            throw new Error(
+                `Deployment would fail on-chain: ${decoded}.`
+            );
+
+        }
+
+        // Re-throw as-is — friendlyError() (utils.js) already
+        // knows how to summarize ACTION_REJECTED, INSUFFICIENT_FUNDS,
+        // and other known ethers error shapes.
+        throw error;
+
+    }
+
+}
 
 export async function deployWithNative(
     config,
@@ -857,6 +981,39 @@ export async function deployWithNative(
     const factory =
         await getFactoryWrite();
 
+    // Simulate first via eth_call, which reliably surfaces the
+    // real revert reason even on RPCs whose eth_estimateGas
+    // strips it. If this throws, deployment never reaches the
+    // wallet confirmation prompt.
+    await simulateDeployWithNative(
+
+        factory,
+
+        config,
+
+        metadata,
+
+        nativeFee
+
+    );
+
+    const gasLimit =
+        await resolveGasLimit(
+
+            () => factory.deployWithNative.estimateGas(
+
+                config,
+
+                metadata,
+
+                { value: nativeFee }
+
+            ),
+
+            9_000_000n
+
+        );
+
     const tx =
         await factory.deployWithNative(
 
@@ -864,7 +1021,13 @@ export async function deployWithNative(
 
             metadata,
 
-            { value: nativeFee }
+            {
+
+                value: nativeFee,
+
+                gasLimit
+
+            }
 
         );
 
@@ -906,6 +1069,31 @@ export async function deployWithNative(
 // permit signature with a mismatched domain/version.
 // =====================================================
 
+async function resolveGasLimit(populatedCall, fallback) {
+
+    try {
+
+        const estimate =
+            await populatedCall();
+
+        // 20% buffer — cheap insurance against underestimation.
+        return (estimate * 120n) / 100n;
+
+    }
+
+    catch {
+
+        // staticCall already proved this exact call succeeds
+        // against current chain state, so a failure here means
+        // this RPC's eth_estimateGas is the unreliable part, not
+        // the transaction — fall back to a generous fixed ceiling
+        // instead of blocking deployment entirely.
+        return fallback;
+
+    }
+
+}
+
 function randomSalt() {
 
     const bytes =
@@ -934,6 +1122,61 @@ export async function deployWithToken(
     const factory =
         await getFactoryWrite();
 
+    try {
+
+        await factory.deployCreate2.staticCall(
+
+            config,
+
+            metadata,
+
+            paymentSymbol,
+
+            salt
+
+        );
+
+    }
+
+    catch (error) {
+
+        const iface =
+            await loadFactoryInterface();
+
+        const decoded =
+            decodeCustomError(error, iface);
+
+        if (decoded) {
+
+            throw new Error(
+                `Deployment would fail on-chain: ${decoded}.`
+            );
+
+        }
+
+        throw error;
+
+    }
+
+    const gasLimit =
+        await resolveGasLimit(
+
+            () => factory.deployCreate2.estimateGas(
+
+                config,
+
+                metadata,
+
+                paymentSymbol,
+
+                salt
+
+            ),
+
+            9_000_000n
+
+        );
+
     const tx =
         await factory.deployCreate2(
 
@@ -943,7 +1186,9 @@ export async function deployWithToken(
 
             paymentSymbol,
 
-            salt
+            salt,
+
+            { gasLimit }
 
         );
 

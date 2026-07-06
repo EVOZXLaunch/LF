@@ -410,6 +410,24 @@ export function friendlyError(error) {
 
     }
 
+    // The RPC node reverted the call but didn't return a reason
+    // (common on lightweight/custom-chain RPC nodes for
+    // eth_estimateGas). The transaction genuinely can't succeed
+    // as configured, but we can't say exactly why from here.
+    if (
+        code === "CALL_EXCEPTION" &&
+        /missing revert data/i.test(error.shortMessage || "")
+    ) {
+
+        return (
+            "The network rejected this transaction without giving a reason " +
+            "(this can happen on EVOZ's RPC for certain configurations). " +
+            "Double-check your token settings — especially tax shares, " +
+            "wallet addresses, and the deployment fee — then try again."
+        );
+
+    }
+
     // Not enough native balance to cover value + gas.
     if (
         code === "INSUFFICIENT_FUNDS" ||
