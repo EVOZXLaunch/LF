@@ -365,6 +365,15 @@ export async function getDeploymentPreview(form) {
         const quote =
             await quoteNativeFee(method.symbol);
 
+        if (!quote.utilityAmount || quote.utilityAmount === 0n) {
+
+            throw new Error(
+                "The LaunchFutureExchange contract returned a zero LFT quote for the deployment fee — " +
+                "this will fail on-chain even though you're paying in EVOZ. Contact the platform owner."
+            );
+
+        }
+
         return {
 
             account,
@@ -545,6 +554,25 @@ export async function deployToken(form) {
         // revert if the fee changed between page load and click).
         const quote =
             await quoteNativeFee(method.symbol);
+
+        // deployWithNative() ALWAYS asks the exchange for an
+        // LFT-equivalent quote of the fee too (purely for its
+        // own burn/treasury bookkeeping), even though you're
+        // paying in native EVOZ — and reverts with
+        // ZeroUtilityTokenQuote if that quote comes back 0.
+        // quoteNativeFee() above already ran that exact same
+        // exchange.quoteLFT() call and got `utilityAmount` back,
+        // so we can catch this here with a real explanation
+        // instead of the generic RPC "missing revert data".
+        if (!quote.utilityAmount || quote.utilityAmount === 0n) {
+
+            throw new Error(
+                "The LaunchFutureExchange contract returned a zero LFT quote for the deployment fee. " +
+                "This is required internally even for native-currency payments and will always fail until " +
+                "the exchange's price/liquidity is configured. Contact the platform owner."
+            );
+
+        }
 
         result =
             await deployWithNative(

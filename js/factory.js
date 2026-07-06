@@ -963,10 +963,21 @@ async function simulateDeployWithNative(
 
         }
 
-        // Re-throw as-is — friendlyError() (utils.js) already
-        // knows how to summarize ACTION_REJECTED, INSUFFICIENT_FUNDS,
-        // and other known ethers error shapes.
-        throw error;
+        // EVOZ's RPC has been observed returning empty revert
+        // data for BOTH failing and (per manual testing in
+        // Remix, forcing the send) succeeding calls alike — its
+        // gas/call simulation is not a reliable signal on this
+        // chain specifically. Since we couldn't decode an actual
+        // reason, don't block deployment on this alone: log it
+        // and let the real transaction (with the gas fallback in
+        // deployWithNative below) be the actual source of truth.
+        console.warn(
+
+            "deployWithNative simulation returned no revert data — proceeding with real transaction anyway (known EVOZ RPC limitation).",
+
+            error
+
+        );
 
     }
 
@@ -1154,7 +1165,13 @@ export async function deployWithToken(
 
         }
 
-        throw error;
+        console.warn(
+
+            "deployCreate2 simulation returned no revert data — proceeding with real transaction anyway (known EVOZ RPC limitation).",
+
+            error
+
+        );
 
     }
 

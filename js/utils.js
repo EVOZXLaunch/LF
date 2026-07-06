@@ -420,10 +420,10 @@ export function friendlyError(error) {
     ) {
 
         return (
-            "The network rejected this transaction without giving a reason " +
-            "(this can happen on EVOZ's RPC for certain configurations). " +
-            "Double-check your token settings — especially tax shares, " +
-            "wallet addresses, and the deployment fee — then try again."
+            "The transaction failed on-chain without a specific reason " +
+            "(EVOZ's RPC doesn't always report why). Common causes: the " +
+            "symbol was just taken by someone else, a tax share/wallet " +
+            "mismatch, or the deployment fee changed. Double-check and try again."
         );
 
     }
@@ -488,8 +488,8 @@ export function friendlyError(error) {
     const raw =
         error.message || String(error);
 
-    return raw.length > 160
-        ? raw.slice(0, 160) + "…"
+    return raw.length > 300
+        ? raw.slice(0, 300) + "…"
         : raw;
 
 }
