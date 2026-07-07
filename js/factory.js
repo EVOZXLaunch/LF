@@ -926,11 +926,38 @@ function decodeCustomError(error, iface) {
 
 }
 
+// The factory quotes `nativeFee` from a live on-chain price
+// (native <-> LFT via the exchange). By the time the signed
+// transaction actually lands in a block, that price can have
+// drifted (other trades, a block or two of delay, the wallet's
+// own confirmation lag on mobile, etc.). The contract's
+// `InsufficientNativeFee` error name (rather than something like
+// `IncorrectNativeFee`) indicates a `msg.value >= nativeFee`
+// style check, not an exact-match check — so it is safe, and
+// necessary, to send slightly more than the quote and let the
+// contract keep/refund the difference. Without this buffer, a
+// deploy quoted one moment and mined the next can revert for no
+// visible reason, which is exactly the "transaction execution
+// reverted" failure this fixes.
+const NATIVE_FEE_SLIPPAGE_BPS = 300n; // 3%
+
+function withSlippageBuffer(nativeFee) {
+
+    const fee =
+        BigInt(nativeFee);
+
+    const buffer =
+        (fee * NATIVE_FEE_SLIPPAGE_BPS) / 10_000n;
+
+    return fee + buffer;
+
+}
+
 async function simulateDeployWithNative(
     factory,
     config,
     metadata,
-    nativeFee
+    nativeFeeWithBuffer
 ) {
 
     try {
@@ -941,7 +968,7 @@ async function simulateDeployWithNative(
 
             metadata,
 
-            { value: nativeFee }
+            { value: nativeFeeWithBuffer }
 
         );
 
@@ -983,6 +1010,62 @@ async function simulateDeployWithNative(
 
 }
 
+// If a transaction is actually mined but reverted (receipt
+// status 0), ethers/RPC error objects at that point almost
+// never carry decodable revert data — that only comes back
+// reliably from an `eth_call` (staticCall). So on failure we
+// replay the exact same call as an `eth_call` pinned to the
+// failing block and decode whatever comes back, turning a bare
+// "transaction execution reverted" into the actual contract
+// error name whenever the RPC cooperates.
+async function decodeFailedTransaction(
+    factory,
+    config,
+    metadata,
+    value,
+    from,
+    blockTag,
+    functionName = "deployWithNative",
+    args = null
+) {
+
+    try {
+
+        const data =
+            factory.interface.encodeFunctionData(
+                functionName,
+                args || [config, metadata]
+            );
+
+        await factory.runner.provider.call({
+
+            to: await factory.getAddress(),
+
+            data,
+
+            value,
+
+            from
+
+        }, blockTag);
+
+        // If eth_call didn't throw, the RPC gave us nothing
+        // usable to decode.
+        return null;
+
+    }
+
+    catch (error) {
+
+        const iface =
+            await loadFactoryInterface();
+
+        return decodeCustomError(error, iface);
+
+    }
+
+}
+
 export async function deployWithNative(
     config,
     metadata,
@@ -991,6 +1074,9 @@ export async function deployWithNative(
 
     const factory =
         await getFactoryWrite();
+
+    const value =
+        withSlippageBuffer(nativeFee);
 
     // Simulate first via eth_call, which reliably surfaces the
     // real revert reason even on RPCs whose eth_estimateGas
@@ -1004,7 +1090,7 @@ export async function deployWithNative(
 
         metadata,
 
-        nativeFee
+        value
 
     );
 
@@ -1017,7 +1103,7 @@ export async function deployWithNative(
 
                 metadata,
 
-                { value: nativeFee }
+                { value }
 
             ),
 
@@ -1034,7 +1120,7 @@ export async function deployWithNative(
 
             {
 
-                value: nativeFee,
+                value,
 
                 gasLimit
 
@@ -1044,6 +1130,33 @@ export async function deployWithNative(
 
     const receipt =
         await tx.wait();
+
+    if (!receipt || receipt.status === 0) {
+
+        const decoded =
+            await decodeFailedTransaction(
+
+                factory,
+
+                config,
+
+                metadata,
+
+                value,
+
+                tx.from,
+
+                receipt?.blockNumber
+
+            );
+
+        throw new Error(
+            decoded
+                ? `Deployment reverted on-chain: ${decoded}.`
+                : "Deployment reverted on-chain. The most likely cause is the deployment fee quote moving between confirmation and mining — please try again."
+        );
+
+    }
 
     const event =
         await parseTokenDeployed(receipt);
@@ -1211,6 +1324,37 @@ export async function deployWithToken(
 
     const receipt =
         await tx.wait();
+
+    if (!receipt || receipt.status === 0) {
+
+        const decoded =
+            await decodeFailedTransaction(
+
+                factory,
+
+                config,
+
+                metadata,
+
+                0n,
+
+                tx.from,
+
+                receipt?.blockNumber,
+
+                "deployCreate2",
+
+                [config, metadata, paymentSymbol, salt]
+
+            );
+
+        throw new Error(
+            decoded
+                ? `Deployment reverted on-chain: ${decoded}.`
+                : "Deployment reverted on-chain. Please check your token allowance/balance and try again."
+        );
+
+    }
 
     const event =
         await parseTokenDeployed(receipt);
