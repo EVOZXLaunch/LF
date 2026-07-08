@@ -846,6 +846,214 @@ FEATURES
 }
 
 /* ==========================================================
+FEATURES
+========================================================== */
+
+.section-eyebrow {
+
+    display: inline-block;
+
+    margin-bottom: 12px;
+
+    padding: 6px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 999px;
+
+    color: var(--gold);
+
+    font-size: .78rem;
+
+    font-weight: 600;
+
+    letter-spacing: .04em;
+
+    text-transform: uppercase;
+
+}
+
+.feature-category-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 24px;
+
+}
+
+.feature-category-card {
+
+    padding: 28px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    transition: .25s;
+
+}
+
+.feature-category-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color: var(--gold);
+
+}
+
+.feature-category-card h3 {
+
+    margin-bottom: 16px;
+
+    color: var(--gold);
+
+    font-size: 1.05rem;
+
+}
+
+.feature-tag-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+
+}
+
+.feature-tag-list li {
+
+    position: relative;
+
+    padding-left: 20px;
+
+    color: var(--text);
+
+    font-size: .92rem;
+
+}
+
+.feature-tag-list li::before {
+
+    content: "✓";
+
+    position: absolute;
+
+    left: 0;
+
+    color: var(--gold);
+
+    font-weight: 700;
+
+}
+
+/* ==========================================================
+FAQ
+========================================================== */
+
+.faq-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+}
+
+.faq-item {
+
+    padding: 20px 24px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+}
+
+.faq-item summary {
+
+    cursor: pointer;
+
+    color: var(--white);
+
+    font-weight: 600;
+
+    list-style: none;
+
+}
+
+.faq-item summary::-webkit-details-marker {
+
+    display: none;
+
+}
+
+.faq-item summary::after {
+
+    content: "+";
+
+    float: right;
+
+    color: var(--gold);
+
+    font-weight: 700;
+
+}
+
+.faq-item[open] summary::after {
+
+    content: "−";
+
+}
+
+.faq-item p {
+
+    margin-top: 14px;
+
+    color: var(--muted);
+
+    line-height: 1.6;
+
+}
+
+@media (max-width: 900px) {
+
+    .feature-category-grid {
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .feature-category-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+/* ==========================================================
 FORM ELEMENTS
 ========================================================== */
 

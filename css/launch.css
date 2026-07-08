@@ -203,6 +203,120 @@
 }
 
 /* ==========================================================
+   WIZARD QUICK NAV
+========================================================== */
+
+.wizard-nav {
+
+    position: sticky;
+
+    top: 8px;
+
+    z-index: 20;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+
+    padding: 12px 16px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    backdrop-filter: blur(6px);
+
+}
+
+.wizard-nav-pills {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+}
+
+.wizard-nav-pill {
+
+    padding: 6px 12px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 999px;
+
+    color: var(--text);
+
+    font-size: .78rem;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+}
+
+.wizard-nav-pill:hover {
+
+    border-color: var(--gold);
+
+    color: var(--gold);
+
+}
+
+.wizard-nav-summary {
+
+    flex-shrink: 0;
+
+    color: var(--muted);
+
+    font-size: .85rem;
+
+    white-space: nowrap;
+
+}
+
+.wizard-nav-summary span {
+
+    color: var(--gold);
+
+    font-weight: 700;
+
+}
+
+@media (max-width: 768px) {
+
+    .wizard-nav {
+
+        position: static;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .wizard-nav-summary {
+
+        white-space: normal;
+
+    }
+
+}
+
+/* ==========================================================
    CHECKBOX
 ========================================================== */
 
@@ -230,15 +344,67 @@
 
 .checkbox-row input[type="checkbox"] {
 
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    width: 42px;
+
+    height: 24px;
+
+    flex-shrink: 0;
+
+    margin: 0;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 999px;
+
+    position: relative;
+
+    cursor: pointer;
+
+    transition: background .2s, border-color .2s;
+
+}
+
+.checkbox-row input[type="checkbox"]::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 2px;
+
+    left: 2px;
+
     width: 18px;
 
     height: 18px;
 
-    margin: 0;
+    border-radius: 50%;
 
-    flex-shrink: 0;
+    background: var(--muted);
 
-    cursor: pointer;
+    transition: transform .2s, background .2s;
+
+}
+
+.checkbox-row input[type="checkbox"]:checked {
+
+    background: var(--gold);
+
+    border-color: var(--gold);
+
+}
+
+.checkbox-row input[type="checkbox"]:checked::before {
+
+    background: var(--bg);
+
+    transform: translateX(18px);
 
 }
 
