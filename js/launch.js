@@ -1275,6 +1275,157 @@ async function loadInitialState() {
 }
 
 // =====================================================
+// QUICK NAV + LIVE FEATURE SUMMARY
+// =====================================================
+
+const TOGGLE_FEATURE_IDS = [
+
+    "burnable",
+    "mintable",
+    "ownershipEnabled",
+    "maxWalletEnabled",
+    "maxTxEnabled",
+    "antiBot",
+    "tradingDelay",
+    "blacklist",
+    "whitelist",
+    "buyTaxEnabled",
+    "sellTaxEnabled",
+    "transferTaxEnabled"
+
+];
+
+const TAX_INPUT_PAIRS = [
+
+    ["buyTaxEnabled", "buyTax"],
+    ["sellTaxEnabled", "sellTax"],
+    ["transferTaxEnabled", "transferTax"]
+
+];
+
+function updateFeatureSummary() {
+
+    const countEl =
+        document.getElementById("featureCount");
+
+    const taxEl =
+        document.getElementById("liveTaxTotal");
+
+    if (!countEl || !taxEl) {
+
+        return;
+
+    }
+
+    let enabled = 0;
+
+    TOGGLE_FEATURE_IDS.forEach(
+        id => {
+
+            const el =
+                document.getElementById(id);
+
+            if (el && el.checked) {
+
+                enabled++;
+
+            }
+
+        }
+    );
+
+    countEl.textContent = String(enabled);
+
+    let totalTax = 0;
+
+    TAX_INPUT_PAIRS.forEach(
+        ([toggleId, valueId]) => {
+
+            const toggle =
+                document.getElementById(toggleId);
+
+            const value =
+                document.getElementById(valueId);
+
+            if (toggle && toggle.checked && value) {
+
+                totalTax += Number(value.value) || 0;
+
+            }
+
+        }
+    );
+
+    taxEl.textContent = String(totalTax);
+
+}
+
+function initializeFeatureSummary() {
+
+    updateFeatureSummary();
+
+    document.addEventListener(
+        "input",
+        updateFeatureSummary
+    );
+
+    document.addEventListener(
+        "change",
+        updateFeatureSummary
+    );
+
+}
+
+function initializeQuickNav() {
+
+    const pills =
+        document.querySelectorAll(
+            ".wizard-nav-pill"
+        );
+
+    pills.forEach(
+        pill => {
+
+            pill.addEventListener(
+
+                "click",
+
+                () => {
+
+                    const target =
+                        pill.dataset.goto;
+
+                    const section =
+                        document.querySelector(
+                            `.accordion[data-section="${target}"]`
+                        );
+
+                    if (!section) {
+
+                        return;
+
+                    }
+
+                    section.classList.add("open");
+
+                    section.scrollIntoView({
+
+                        behavior: "smooth",
+
+                        block: "start"
+
+                    });
+
+                }
+
+            );
+
+        }
+    );
+
+}
+
+// =====================================================
 // INITIALIZE
 // =====================================================
 
@@ -1293,6 +1444,10 @@ async function initialize() {
         await initializeWallet();
 
         initializeAccordion();
+
+        initializeQuickNav();
+
+        initializeFeatureSummary();
 
         bindFormInputs();
 
