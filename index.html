@@ -390,6 +390,124 @@
 
             <div class="page-header text-center">
 
+                <span class="section-eyebrow">
+
+                    16 On-Chain Configurable Fields
+
+                </span>
+
+                <h2>
+
+                    Customize Every Part Of Your Token
+
+                </h2>
+
+                <p>
+
+                    Every field below maps directly to the LaunchFuture
+                    Factory contract — nothing here is cosmetic, and
+                    nothing is added after deployment.
+
+                </p>
+
+            </div>
+
+            <div class="feature-category-grid">
+
+                <article class="feature-category-card">
+
+                    <h3>Supply &amp; Ownership</h3>
+
+                    <ul class="feature-tag-list">
+
+                        <li>Fixed or mintable supply</li>
+                        <li>Burnable transfers</li>
+                        <li>Optional max supply cap</li>
+                        <li>Renounceable ownership</li>
+
+                    </ul>
+
+                </article>
+
+                <article class="feature-category-card">
+
+                    <h3>Security &amp; Limits</h3>
+
+                    <ul class="feature-tag-list">
+
+                        <li>Max wallet percent</li>
+                        <li>Max transaction percent</li>
+                        <li>Anti-bot cooldown (blocks)</li>
+                        <li>Trading delay (seconds)</li>
+                        <li>Blacklist</li>
+                        <li>Whitelist</li>
+
+                    </ul>
+
+                </article>
+
+                <article class="feature-category-card">
+
+                    <h3>Taxes &amp; Distribution</h3>
+
+                    <ul class="feature-tag-list">
+
+                        <li>Independent buy / sell / transfer tax</li>
+                        <li>Up to 7 wallet-based tax shares</li>
+                        <li>Burn, marketing &amp; treasury shares</li>
+                        <li>Liquidity, buyback &amp; charity shares</li>
+
+                    </ul>
+
+                </article>
+
+                <article class="feature-category-card">
+
+                    <h3>Branding &amp; Metadata</h3>
+
+                    <ul class="feature-tag-list">
+
+                        <li>Website, Telegram &amp; Twitter links</li>
+                        <li>Custom token logo</li>
+                        <li>Stored fully on-chain</li>
+                        <li>Shown on your token's public page</li>
+
+                    </ul>
+
+                </article>
+
+            </div>
+
+            <div
+                style="
+                    text-align:center;
+                    margin-top:32px;
+                ">
+
+                <a
+                    href="./launch.html"
+                    class="primary-button">
+
+                    Configure Your Token
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================== -->
+    <!-- WHY LAUNCHFUTURE -->
+    <!-- ===================================== -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="page-header text-center">
+
                 <h2>
 
                     Why LaunchFuture
@@ -553,6 +671,96 @@
                     </p>
 
                 </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================== -->
+    <!-- FAQ -->
+    <!-- ===================================== -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="page-header text-center">
+
+                <h2>
+
+                    Frequently Asked Questions
+
+                </h2>
+
+            </div>
+
+            <div class="faq-list">
+
+                <details class="faq-item">
+
+                    <summary>Do I keep full ownership of my token?</summary>
+
+                    <p>
+
+                        Yes. The owner address you set during deployment is
+                        the only address that can call owner-restricted
+                        functions on your token. You can transfer ownership
+                        or renounce it entirely at any time.
+
+                    </p>
+
+                </details>
+
+                <details class="faq-item">
+
+                    <summary>How is the deployment fee paid?</summary>
+
+                    <p>
+
+                        The Factory quotes a live fee in EVOZ (native) at
+                        the moment you review your deployment. A small
+                        buffer is added automatically to absorb normal
+                        price movement between confirmation and mining, so
+                        your transaction doesn't fail over a rounding
+                        difference.
+
+                    </p>
+
+                </details>
+
+                <details class="faq-item">
+
+                    <summary>Can I change my token's settings after deployment?</summary>
+
+                    <p>
+
+                        Fields such as taxes, limits and wallets are set at
+                        deploy time and become part of your token's
+                        immutable bytecode, the same way any audited
+                        token generator works. Review every field carefully
+                        on the Deployment Review screen before confirming.
+
+                    </p>
+
+                </details>
+
+                <details class="faq-item">
+
+                    <summary>What happens if my deployment transaction reverts?</summary>
+
+                    <p>
+
+                        LaunchFuture simulates your deployment before asking
+                        your wallet to sign, and decodes the exact
+                        on-chain error whenever the network returns one —
+                        instead of a generic "execution reverted" message —
+                        so you know precisely what to fix.
+
+                    </p>
+
+                </details>
 
             </div>
 
