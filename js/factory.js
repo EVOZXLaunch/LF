@@ -1066,6 +1066,123 @@ async function decodeFailedTransaction(
 
 }
 
+// ethers v6 REJECTS `tx.wait()` (instead of resolving with a
+// status-0 receipt) when the mined transaction reverted — so the
+// `if (!receipt || receipt.status === 0)` decode path below it
+// was dead code for every real on-chain revert; the thrown error's
+// bare `.shortMessage` ("transaction execution reverted") was
+// reaching the user instead, with none of the 44 known custom
+// errors ever getting a chance to be matched. This wraps both
+// outcomes (throw, or a resolved status-0 receipt) through the
+// exact same decode path so a real contract error can surface
+// either way.
+async function assertMined(
+    txPromise,
+    factory,
+    config,
+    metadata,
+    value,
+    functionName,
+    args,
+    fallbackMessage
+) {
+
+    let tx;
+
+    let receipt;
+
+    try {
+
+        tx = await txPromise;
+
+        receipt = await tx.wait();
+
+    }
+
+    catch (error) {
+
+        // Anything other than a reverted call (user rejected in
+        // their wallet, insufficient funds, a dropped/timed-out
+        // request, etc.) already gets a clean, specific message
+        // from friendlyError() upstream via error.code — rethrow
+        // those untouched so that handling keeps working. Only
+        // CALL_EXCEPTION means the transaction actually reached
+        // the chain and reverted, which is the only case worth
+        // routing through the decode path below.
+        if (error?.code !== "CALL_EXCEPTION") {
+
+            throw error;
+
+        }
+
+        const iface =
+            await loadFactoryInterface();
+
+        const decoded =
+            decodeCustomError(error, iface) ||
+            await decodeFailedTransaction(
+
+                factory,
+
+                config,
+
+                metadata,
+
+                value,
+
+                error?.transaction?.from || tx?.from,
+
+                error?.receipt?.blockNumber,
+
+                functionName,
+
+                args
+
+            );
+
+        throw new Error(
+            decoded
+                ? `Deployment reverted on-chain: ${decoded}.`
+                : fallbackMessage
+        );
+
+    }
+
+    if (!receipt || receipt.status === 0) {
+
+        const decoded =
+            await decodeFailedTransaction(
+
+                factory,
+
+                config,
+
+                metadata,
+
+                value,
+
+                tx.from,
+
+                receipt?.blockNumber,
+
+                functionName,
+
+                args
+
+            );
+
+        throw new Error(
+            decoded
+                ? `Deployment reverted on-chain: ${decoded}.`
+                : fallbackMessage
+        );
+
+    }
+
+    return { tx, receipt };
+
+}
+
 export async function deployWithNative(
     config,
     metadata,
@@ -1111,52 +1228,40 @@ export async function deployWithNative(
 
         );
 
-    const tx =
-        await factory.deployWithNative(
+    const { tx, receipt } =
+        await assertMined(
 
-            config,
-
-            metadata,
-
-            {
-
-                value,
-
-                gasLimit
-
-            }
-
-        );
-
-    const receipt =
-        await tx.wait();
-
-    if (!receipt || receipt.status === 0) {
-
-        const decoded =
-            await decodeFailedTransaction(
-
-                factory,
+            factory.deployWithNative(
 
                 config,
 
                 metadata,
 
-                value,
+                {
 
-                tx.from,
+                    value,
 
-                receipt?.blockNumber
+                    gasLimit
 
-            );
+                }
 
-        throw new Error(
-            decoded
-                ? `Deployment reverted on-chain: ${decoded}.`
-                : "Deployment reverted on-chain. The most likely cause is the deployment fee quote moving between confirmation and mining — please try again."
+            ),
+
+            factory,
+
+            config,
+
+            metadata,
+
+            value,
+
+            "deployWithNative",
+
+            [config, metadata],
+
+            "Deployment reverted on-chain. The most likely cause is the deployment fee quote moving between confirmation and mining — please try again."
+
         );
-
-    }
 
     const event =
         await parseTokenDeployed(receipt);
@@ -1307,54 +1412,38 @@ export async function deployWithToken(
 
         );
 
-    const tx =
-        await factory.deployCreate2(
+    const { tx, receipt } =
+        await assertMined(
 
-            config,
-
-            metadata,
-
-            paymentSymbol,
-
-            salt,
-
-            { gasLimit }
-
-        );
-
-    const receipt =
-        await tx.wait();
-
-    if (!receipt || receipt.status === 0) {
-
-        const decoded =
-            await decodeFailedTransaction(
-
-                factory,
+            factory.deployCreate2(
 
                 config,
 
                 metadata,
 
-                0n,
+                paymentSymbol,
 
-                tx.from,
+                salt,
 
-                receipt?.blockNumber,
+                { gasLimit }
 
-                "deployCreate2",
+            ),
 
-                [config, metadata, paymentSymbol, salt]
+            factory,
 
-            );
+            config,
 
-        throw new Error(
-            decoded
-                ? `Deployment reverted on-chain: ${decoded}.`
-                : "Deployment reverted on-chain. Please check your token allowance/balance and try again."
+            metadata,
+
+            0n,
+
+            "deployCreate2",
+
+            [config, metadata, paymentSymbol, salt],
+
+            "Deployment reverted on-chain. Please check your token allowance/balance and try again."
+
         );
-
-    }
 
     const event =
         await parseTokenDeployed(receipt);
