@@ -428,6 +428,24 @@ export function friendlyError(error) {
 
     }
 
+    // ethers failed to parse the RPC node's response into ANY
+    // recognized error shape — this isn't a decoded contract
+    // reason at all, it means the node (rpc.evozscan.com) sent
+    // back something malformed/non-standard for this specific
+    // call. Different from the "missing revert data" case above,
+    // where the RPC responds cleanly but just omits the reason.
+    if (/could not coalesce/i.test(error.shortMessage || error.message || "")) {
+
+        return (
+            "The EVOZ RPC node returned a response ethers.js couldn't parse at all " +
+            "(not a decoded contract error — the node itself sent back something " +
+            "malformed for this call). Wait a moment and try again; if it keeps " +
+            "happening, try the same call directly from evozscan's Write Contract " +
+            "tab to check whether the node behaves differently there."
+        );
+
+    }
+
     // Not enough native balance to cover value + gas.
     if (
         code === "INSUFFICIENT_FUNDS" ||
